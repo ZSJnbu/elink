@@ -27,8 +27,8 @@ export const env = createEnv({
 		ZPAY_KEY: z.string().optional(),
 		C_ID: z.string().optional(),
 		// Redis Configuration
-		UPSTASH_REDIS_URL: z.string(),
-		UPSTASH_REDIS_TOKEN: z.string(),
+		UPSTASH_REDIS_URL: z.string().optional(),
+		UPSTASH_REDIS_TOKEN: z.string().optional(),
 		// Admin Configuration
 		ADMIN_PORTAL_USERNAME: z.string().default("admin"),
 		ADMIN_PORTAL_PASSWORD: z.string().default("admin123"),
