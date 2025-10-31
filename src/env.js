@@ -27,8 +27,8 @@ export const env = createEnv({
 		ZPAY_KEY: z.string().optional(),
 		C_ID: z.string().optional(),
 		// Redis Configuration
-		UPSTASH_REDIS_URL: z.string().optional(),
-		UPSTASH_REDIS_TOKEN: z.string().optional(),
+		UPSTASH_REDIS_URL: z.string().default(""),
+		UPSTASH_REDIS_TOKEN: z.string().default(""),
 		// Admin Configuration
 		ADMIN_PORTAL_USERNAME: z.string().default("admin"),
 		ADMIN_PORTAL_PASSWORD: z.string().default("admin123"),
@@ -69,7 +69,9 @@ export const env = createEnv({
 	 * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
 	 * useful for Docker builds.
 	 */
-	skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+	skipValidation:
+		process.env.SKIP_ENV_VALIDATION === "1" ||
+		process.env.CF_PAGES === "1",
 	/**
 	 * Makes it so that empty strings are treated as undefined. `SOME_VAR: z.string()` and
 	 * `SOME_VAR=''` will throw an error.
