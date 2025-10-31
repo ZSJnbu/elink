@@ -1,8 +1,9 @@
 import { getTranslations } from "next-intl/server";
 
 export async function getMessages() {
-	const [headerT, formT, previewT, linkedContentT, featuresT] =
+	const [heroT, headerT, formT, previewT, linkedContentT, featuresT] =
 		await Promise.all([
+			getTranslations("home.hero"),
 			getTranslations("keyword-editor.header"),
 			getTranslations("keyword-editor.form"),
 			getTranslations("keyword-editor.preview"),
@@ -12,6 +13,15 @@ export async function getMessages() {
 
 	// 组合所有翻译数据
 	return {
+		home: {
+			hero: {
+				title: heroT("title"),
+				subtitle: heroT("subtitle"),
+				cta: heroT("cta"),
+				badge: heroT("badge"),
+				secondaryCta: heroT("secondaryCta"),
+			},
+		},
 		header: {
 			title: headerT("title"),
 			description: headerT("description"),

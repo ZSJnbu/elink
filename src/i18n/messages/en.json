@@ -1,4 +1,13 @@
 {
+	"home": {
+		"hero": {
+			"title": "Elink",
+			"subtitle": "Automated external link assistant for high-quality content publishing",
+			"cta": "Start using Elink",
+			"badge": "AI-powered workflow",
+			"secondaryCta": "Learn more"
+		}
+	},
 	"keyword-editor": {
 		"header": {
 			"title": "External Link Optimization",

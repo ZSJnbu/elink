@@ -30,7 +30,7 @@ export default async function RootLayout({
 			>
 				<Providers messages={messages} locale={locale}>
 					<div className="relative flex min-h-screen flex-col">
-						<div className="container mx-auto">{children}</div>
+						{children}
 						<Toaster />
 					</div>
 				</Providers>

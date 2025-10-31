@@ -1,4 +1,13 @@
 {
+	"home": {
+		"hero": {
+			"title": "Elink",
+			"subtitle": "智能外链助手，帮助你快速发布高质量内容",
+			"cta": "开始体验",
+			"badge": "AI 驱动流程",
+			"secondaryCta": "了解详情"
+		}
+	},
 	"keyword-editor": {
 		"header": {
 			"title": "外链优化",
