@@ -11,24 +11,24 @@ export const env = createEnv({
 			.enum(["development", "test", "production"])
 			.default("development"),
 		// AI Configuration
-		OPENAI_API_KEY: z.string(),
+		OPENAI_API_KEY: z.string().default("sk-placeholder"),
 		// Tools Configuration
-		SERPER_API_KEY: z.string(),
+		SERPER_API_KEY: z.string().default("serper-placeholder"),
 		// Auth Configuration
-		AUTH_SECRET: z.string(),
-		AUTH_TRUST_HOST: z.string(),
+		AUTH_SECRET: z.string().default("Ky2ov7n23iBtMMvqoVWt8fV/7YhfsKODkwxMqtab5OU="),
+		AUTH_TRUST_HOST: z.string().default("true"),
 		NEXTAUTH_URL: z.string(),
 		// Email Configuration
-		PLUNK_API_KEY: z.string(),
-		ADMIN_EMAIL: z.string(),
-		EMAIL_SERVER: z.string(),
+		PLUNK_API_KEY: z.string().default("plunk-placeholder"),
+		ADMIN_EMAIL: z.string().default("admin@example.com"),
+		EMAIL_SERVER: z.string().default("smtp.163.com"),
 		// 7Pay Configuration
-		ZPAY_PID: z.string().optional(),
-		ZPAY_KEY: z.string().optional(),
-		C_ID: z.string().optional(),
+		ZPAY_PID: z.string().default("2025031913250123"),
+		ZPAY_KEY: z.string().default("pz8Qrjbsxo226pj8SgNeE0ao39E8ZuPJ"),
+		C_ID: z.string().default("10679"),
 		// Redis Configuration
-		UPSTASH_REDIS_URL: z.string().default(""),
-		UPSTASH_REDIS_TOKEN: z.string().default(""),
+		UPSTASH_REDIS_URL: z.string().default("https://wanted-duckling-28259.upstash.io"),
+		UPSTASH_REDIS_TOKEN: z.string().default("AW5jAAIncDJjZjk2NDBhNWViNDg0NDYzODY0NjYxODUyOWVmYjliYnAyMjgyNTk"),
 		// Admin Configuration
 		ADMIN_PORTAL_USERNAME: z.string().default("admin"),
 		ADMIN_PORTAL_PASSWORD: z.string().default("admin123"),
