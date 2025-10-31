@@ -1,0 +1,294 @@
+{
+	"keyword-editor": {
+		"header": {
+			"title": "External Link Optimization",
+			"description": "AI-powered article external link optimization tool"
+		},
+		"form": {
+			"title": "Text Editor",
+			"description": "Please enter the English text to analyze",
+			"placeholder": "Please enter the English text to analyze...",
+			"characterCount": "{count} / {max}",
+			"analyze": "Analyze Keywords",
+			"analyzing": "Analyzing..."
+		},
+		"preview": {
+			"description": "Click on keywords to choose whether to add external links",
+			"confirm": "Confirm Selection",
+			"gettingLinks": "Getting links..."
+		},
+		"linked-content": {
+			"description": "Click the link to preview, copy to use directly",
+			"copyMarkdown": "Copy Markdown",
+			"copyMarkdownWithFootnotes": "Copy Markdown+Footnotes",
+			"copied": "Copied",
+			"footnotes": "Recommendations",
+			"preferred": "Preferred"
+		},
+		"features": {
+			"ai": {
+				"title": "AI Analysis",
+				"description": "AI-driven keyword recognition, accurately grasping article focus"
+			},
+			"links": {
+				"title": "Quality Links",
+				"description": "Automatically match high-quality related links to enhance article value"
+			},
+			"optimization": {
+				"title": "One-click Optimization",
+				"description": "Quickly generate optimized Markdown text, ready to use anytime"
+			}
+		},
+		"errors": {
+			"analyzeFailed": "Analysis Failed",
+			"fetchLinksFailed": "Failed to Fetch Links",
+			"tryAgain": "Please try again"
+		},
+		"actions": {
+			"reset": "Clear Editor",
+			"retry": "Retry"
+		}
+	},
+	"locale-switcher": {
+		"en": "EN",
+		"zh": "中文",
+		"label": "Language"
+	},
+	"feedback": {
+		"title": "Submit Feedback",
+		"description": "Your feedback is important to us, and we will carefully consider every suggestion.",
+
+		"message": {
+			"label": "Message",
+			"placeholder": "Share your thoughts, suggestions, or report issues...",
+			"min": "Feedback must be at least 10 characters",
+			"max": "Feedback cannot exceed 1000 characters"
+		},
+		"email": {
+			"label": "Email (Optional)",
+			"placeholder": "Leave your email for follow-up",
+			"invalid": "Please enter a valid email address"
+		},
+		"submit": "Submit Feedback",
+		"submitting": "Submitting...",
+		"errors": {
+			"config": "System configuration error, please contact administrator",
+			"submit": "Failed to submit feedback, please try again later",
+			"unknown": "An unknown error occurred"
+		}
+	},
+	"thanks": {
+		"title": "Thank You!",
+		"description": "Your feedback is important to us, and we will carefully consider every suggestion.",
+		"backHome": "Back to Home"
+	},
+	"settings": {
+		"title": "Settings",
+		"description": "Manage your application settings and preferences",
+		"dialog": {
+			"title": "Settings",
+			"searchTitle": "Search Settings",
+			"searchDescription": "Manage search preferences and filters",
+			"preferredTitle": "Preferred Sites",
+			"blacklistTitle": "Blacklist"
+		},
+		"blacklist": {
+			"input": {
+				"placeholder": "Enter URL to block",
+				"add": "Add"
+			},
+			"list": {
+				"empty": "No blocked URLs yet",
+				"remove": "Remove from blacklist"
+			}
+		},
+		"preferred": {
+			"input": {
+				"placeholder": "Enter preferred URL",
+				"add": "Add"
+			},
+			"list": {
+				"empty": "No preferred URLs yet",
+				"remove": "Remove from preferred list"
+			},
+			"maxLimit": "Maximum 3 preferred sites",
+			"message": "Display search results from these sites first"
+		}
+	},
+	"auth": {
+		"login": "Login/Register",
+		"logout": "Logout",
+		"loginPage": {
+			"title": "Login",
+			"description": "Enter your email address, you will receive a login link.",
+			"email": {
+				"label": "Email Address",
+				"placeholder": "Enter your email address",
+				"submit": "Send Login Link",
+				"sending": "Sending...",
+				"successTitle": "Email sent",
+				"successDescription": "Please check your email inbox",
+				"errorTitle": "Failed to send",
+		"errorDescription": "Unable to send login email, please try again later"
+		}
+	},
+	"verifyRequest": {
+		"title": "Check Your Email",
+			"description": "We've sent a login link to your email",
+			"checkSpam": "If you don't receive the email, please check your spam folder.",
+			"backToLogin": "Back to Login Page"
+		},
+		"error": {
+			"verification": "Verification Link Invalid or Expired",
+			"accessDenied": "Access Denied",
+			"configuration": "Server Configuration Error",
+			"default": "An error occurred during authentication",
+			"title": "Authentication Error",
+		"resendVerification": "Resend Verification Email",
+		"backToHome": "Back to Home"
+	}
+},
+"nav": {
+	"recharge": "Top Up",
+	"admin": "Admin"
+},
+"checkout": {
+	"title": "Top Up Balance",
+	"backHome": "Back to Home",
+	"card": {
+		"title": "Top Up Balance",
+		"description": "Top up your balance for the selected email. The credit will be used to pay for Elink API usage.",
+		"currentBalance": "Current balance: ¥{balance}"
+	},
+	"form": {
+		"emailLabel": "Recharge email",
+		"emailHelperEditable": "If you are not logged in, please provide the email that should own this balance and API key.",
+		"emailHelperFixed": "The system will use your logged-in email.",
+		"amountLabel": "Amount (CNY)",
+		"amountHelper": "¥{amount} will be charged and added to your balance.",
+		"submit": "Top up ¥{amount}",
+		"submitPending": "Processing...",
+		"paymentMethodLabel": "Payment method",
+		"paymentMethodAlipay": "Alipay",
+		"paymentMethodWxpay": "WeChat Pay",
+		"paymentMethodHint": "Choose the wallet that matches the QR code you will scan."
+	},
+	"toast": {
+		"createdTitle": "Payment pending",
+		"createdDescription": "Scan the QR code in the popup to complete the payment.",
+		"successTitle": "Top-up successful",
+		"successDescription": "Current balance: ¥{balance}",
+		"errorTitle": "Payment failed",
+		"errorDescription": "Please try again later.",
+		"expiredTitle": "Order expired",
+		"expiredDescription": "The payment order has expired. Please create a new one.",
+		"failedTitle": "Payment failed",
+		"failedDescription": "The payment could not be completed. Please create a new order."
+	},
+	"payment": {
+		"title": "Scan to Pay",
+		"description": "Use your mobile wallet to scan the QR code and complete the payment.",
+		"amount": "Amount",
+		"orderNo": "Order No.",
+		"expiresAt": "Expires at",
+		"instructionsGeneric": "Keep this window open until the payment is confirmed.",
+		"instructionsAlipay": "Open Alipay on your phone and scan this QR code.",
+		"instructionsWxpay": "Open WeChat, tap the “+” button and choose “Scan” to pay.",
+		"openLinkAlipay": "Open in Alipay",
+		"openLinkWxpay": "Open in WeChat",
+		"openLinkFallback": "Open payment link",
+		"close": "Close",
+		"statusPending": "Waiting for confirmation...",
+		"statusSyncing": "Synchronising payment status..."
+	}
+},
+"admin": {
+	"title": "Admin Console",
+	"description": "Manage API access keys and balances.",
+	"backHome": "Back to Home",
+	"accessKeys": {
+		"title": "Issued Keys",
+		"searchPlaceholder": "Search by email",
+		"addButton": "Add Key",
+		"empty": "No keys yet. Click \"Add Key\" to create one.",
+		"emptyFiltered": "No email matches your search.",
+		"item": {
+			"email": "Authorized email: {email}",
+			"hash": "Hash preview: {preview}",
+			"createdAt": "Created at: {value}",
+			"createdBy": "Created by: {value}",
+			"balance": "Balance: ${value}"
+		},
+		"buttons": {
+			"edit": "Edit email",
+			"view": "View key",
+			"delete": "Delete key"
+		},
+		"dialog": {
+			"createTitle": "Create Access Key",
+			"createDescription": "Enter an email address. A key will be generated automatically.",
+			"emailLabel": "Authorized email",
+			"hint": "Keys are stored hashed. Please copy the plaintext after creation.",
+			"cancel": "Cancel",
+			"confirm": "Create",
+			"submitPending": "Creating...",
+			"editTitle": "Edit Authorized Email",
+			"editDescription": "Changing the email regenerates the key immediately.",
+			"save": "Save",
+			"savePending": "Saving...",
+			"viewTitle": "Key Details",
+			"viewDescription": "The key is derived from the email. Copy it when needed.",
+			"viewEmail": "Authorized email",
+			"viewBalance": "Current balance",
+			"viewKey": "Access key",
+			"balanceValue": "${balance}",
+			"copyKey": "Copy key",
+			"close": "Close",
+			"loading": "Loading..."
+		},
+		"toast": {
+			"create": {
+				"successTitle": "Created",
+				"successDescriptionClipboard": "Key copied to clipboard.",
+				"successDescription": "Key generated successfully.",
+				"errorTitle": "Creation failed",
+				"errorDescription": "Please try again later."
+			},
+			"update": {
+				"successTitle": "Updated",
+				"successDescriptionClipboard": "New key copied to clipboard.",
+				"successDescription": "New key generated successfully.",
+				"errorTitle": "Update failed",
+				"errorDescription": "Please try again later."
+			},
+			"delete": {
+				"successTitle": "Deleted",
+				"successDescription": "Access key removed.",
+				"errorTitle": "Deletion failed",
+				"errorDescription": "Please try again later."
+			},
+			"fetch": {
+				"errorTitle": "Failed to load",
+				"errorDescription": "Please try again later."
+			},
+			"copy": {
+				"successTitle": "Copied",
+				"successDescription": "Key copied to clipboard.",
+				"errorTitle": "Copy failed",
+				"errorDescription": "Please copy the text manually."
+			}
+		}
+	},
+		"orphan": {
+			"title": "Top-up Only Emails",
+			"description": "These emails have a balance but no issued key yet.",
+			"balance": "Balance: ${value}"
+		}
+	},
+	"logout": {
+		"title": "Confirm Logout",
+		"description": "Are you sure you want to sign out?",
+		"confirm": "Sign out",
+		"cancel": "Back to Home"
+	}
+}

@@ -1,0 +1,294 @@
+{
+	"keyword-editor": {
+		"header": {
+			"title": "外链优化",
+			"description": "AI驱动的文章外链优化工具"
+		},
+		"form": {
+			"title": "文本编辑器",
+			"description": "请输入要分析的英文文本",
+			"placeholder": "请输入要分析的英文文本...",
+			"characterCount": "{count} / {max}",
+			"analyze": "分析关键词",
+			"analyzing": "分析中..."
+		},
+		"preview": {
+			"description": "点击关键词可以选择是否添加外链",
+			"confirm": "确认选择",
+			"gettingLinks": "获取链接中..."
+		},
+		"linked-content": {
+			"description": "点击链接可以预览，复制后可直接使用",
+			"copyMarkdown": "复制 Markdown",
+			"copyMarkdownWithFootnotes": "复制 Markdown+脚注",
+			"copied": "已复制",
+			"footnotes": "推荐理由",
+			"preferred": "首选"
+		},
+		"features": {
+			"ai": {
+				"title": "智能分析",
+				"description": "AI驱动的关键词识别，准确把握文章重点"
+			},
+			"links": {
+				"title": "优质外链",
+				"description": "自动匹配高质量相关链接，提升文章价值"
+			},
+			"optimization": {
+				"title": "一键优化",
+				"description": "快速生成优化后的Markdown文本，随时复制使用"
+			}
+		},
+		"errors": {
+			"analyzeFailed": "分析失败",
+			"fetchLinksFailed": "获取链接失败",
+			"tryAgain": "请稍后重试"
+		},
+		"actions": {
+			"reset": "清空内容",
+			"retry": "重试"
+		}
+	},
+	"locale-switcher": {
+		"en": "EN",
+		"zh": "中文",
+		"label": "语言"
+	},
+	"feedback": {
+		"title": "提交反馈",
+		"description": "你的反馈对改进这个工具非常重要，我们认真考虑每一条建议。",
+
+		"message": {
+			"label": "反馈内容",
+			"placeholder": "分享你的想法、建议或反馈问题...",
+			"min": "反馈内容至少需要 10 个字符",
+			"max": "反馈内容不能超过 1000 个字符"
+		},
+		"email": {
+			"label": "邮箱（选填）",
+			"placeholder": "留下邮箱以便后续跟进",
+			"invalid": "请输入有效的邮箱地址"
+		},
+		"submit": "提交反馈",
+		"submitting": "提交中...",
+		"errors": {
+			"config": "系统配置错误，请联系管理员",
+			"submit": "提交反馈失败，请稍后重试",
+			"unknown": "发生未知错误"
+		}
+	},
+	"thanks": {
+		"title": "感谢反馈！",
+		"description": "你的反馈对这个工具非常重要，我会认真考虑每一条建议。",
+		"backHome": "返回首页"
+	},
+	"settings": {
+		"title": "设置",
+		"description": "管理您的应用程序设置和偏好",
+		"dialog": {
+			"title": "设置",
+			"searchTitle": "搜索设置",
+			"searchDescription": "管理搜索偏好和过滤器",
+			"preferredTitle": "偏好网址",
+			"blacklistTitle": "黑名单"
+		},
+		"blacklist": {
+			"input": {
+				"placeholder": "输入要屏蔽的网址",
+				"add": "添加"
+			},
+			"list": {
+				"empty": "暂无屏蔽网址",
+				"remove": "从黑名单移除"
+			}
+		},
+		"preferred": {
+			"input": {
+				"placeholder": "输入偏好网址",
+				"add": "添加"
+			},
+			"list": {
+				"empty": "暂无偏好网址",
+				"remove": "从偏好列表移除"
+			},
+			"maxLimit": "最多支持 3 个偏好网址",
+			"message": "搜索时会优先展示来自这些网站的结果"
+		}
+	},
+	"auth": {
+		"login": "登录/注册",
+		"logout": "注销",
+		"loginPage": {
+			"title": "登录",
+			"description": "输入你的邮箱地址，你会收到登录链接。",
+			"email": {
+				"label": "邮箱地址",
+				"placeholder": "输入你的邮箱地址",
+				"submit": "发送登录链接",
+				"sending": "正在发送...",
+				"successTitle": "邮件已发送",
+				"successDescription": "请查看你的邮箱收件箱",
+				"errorTitle": "发送失败",
+		"errorDescription": "无法发送登录邮件，请稍后重试"
+		}
+	},
+	"verifyRequest": {
+		"title": "查看你的邮箱",
+			"description": "我们已发送登录链接至你的邮箱",
+			"checkSpam": "如果未收到邮件，请检查垃圾邮件文件夹。",
+			"backToLogin": "返回登录页面"
+		},
+		"error": {
+			"verification": "验证链接无效或已过期",
+			"accessDenied": "访问被拒绝",
+			"configuration": "服务器配置错误",
+			"default": "认证过程中出现错误",
+			"title": "认证错误",
+		"resendVerification": "重新发送验证邮件",
+		"backToHome": "返回首页"
+	}
+},
+"nav": {
+	"recharge": "充值余额",
+	"admin": "管理后台"
+},
+"checkout": {
+	"title": "充值余额",
+	"backHome": "返回首页",
+	"card": {
+		"title": "充值余额",
+		"description": "向指定邮箱充值余额。余额将用于支付 Elink API 的调用费用。",
+		"currentBalance": "当前余额：¥{balance}"
+	},
+	"form": {
+		"emailLabel": "充值邮箱",
+		"emailHelperEditable": "未登录用户需要填写充值邮箱，密钥与余额会绑定该邮箱。",
+		"emailHelperFixed": "系统将使用你当前登录的邮箱。",
+		"amountLabel": "充值金额（人民币）",
+		"amountHelper": "我们会扣除 ¥{amount} 并存入余额。",
+		"submit": "立即充值 ¥{amount}",
+		"submitPending": "处理中...",
+		"paymentMethodLabel": "支付方式",
+		"paymentMethodAlipay": "支付宝",
+		"paymentMethodWxpay": "微信支付",
+		"paymentMethodHint": "可根据扫码钱包的类型进行选择。"
+	},
+	"toast": {
+		"createdTitle": "请扫码完成付款",
+		"createdDescription": "弹窗已展示二维码，请使用手机扫码完成支付。",
+		"successTitle": "充值成功",
+		"successDescription": "当前余额：¥{balance}",
+		"errorTitle": "支付失败",
+		"errorDescription": "请稍后重试。",
+		"expiredTitle": "订单已过期",
+		"expiredDescription": "支付订单已过期，请重新创建。",
+		"failedTitle": "支付失败",
+		"failedDescription": "未能完成支付，请重新发起充值。"
+	},
+	"payment": {
+		"title": "扫码支付",
+		"description": "请使用手机钱包扫描二维码完成付款。",
+		"amount": "支付金额",
+		"orderNo": "订单号",
+		"expiresAt": "支付截止",
+		"instructionsGeneric": "支付完成前请不要关闭此窗口，以便系统实时同步状态。",
+		"instructionsAlipay": "请打开支付宝，使用扫一扫完成支付。",
+		"instructionsWxpay": "请打开微信，使用“扫一扫”完成支付。",
+		"openLinkAlipay": "在支付宝中打开",
+		"openLinkWxpay": "在微信中打开",
+		"openLinkFallback": "打开支付链接",
+		"close": "关闭",
+		"statusPending": "等待支付确认...",
+		"statusSyncing": "正在同步支付状态..."
+	}
+},
+"admin": {
+	"title": "管理后台",
+	"description": "在此管理对外开放的 API 访问密钥与余额。",
+	"backHome": "返回首页",
+	"accessKeys": {
+		"title": "已颁发的密钥",
+		"searchPlaceholder": "搜索授权邮箱",
+		"addButton": "添加密钥",
+		"empty": "暂未添加任何密钥。点击“添加密钥”按钮创建。",
+		"emptyFiltered": "未找到匹配的邮箱，请尝试其他关键词。",
+		"item": {
+			"email": "授权邮箱：{email}",
+			"hash": "哈希片段：{preview}",
+			"createdAt": "创建时间：{value}",
+			"createdBy": "创建者：{value}",
+			"balance": "余额：${value}"
+		},
+		"buttons": {
+			"edit": "编辑邮箱",
+			"view": "查看密钥",
+			"delete": "删除密钥"
+		},
+		"dialog": {
+			"createTitle": "新增访问密钥",
+			"createDescription": "输入授权邮箱，系统将自动生成密钥。",
+			"emailLabel": "授权邮箱",
+			"hint": "密钥以哈希形式保存，请妥善复制明文。",
+			"cancel": "取消",
+			"confirm": "确认添加",
+			"submitPending": "提交中...",
+			"editTitle": "编辑授权邮箱",
+			"editDescription": "修改后将立即生成新的密钥。",
+			"save": "保存修改",
+			"savePending": "保存中...",
+			"viewTitle": "密钥详情",
+			"viewDescription": "密钥由邮箱推导，可随时再次生成。",
+			"viewEmail": "授权邮箱",
+			"viewBalance": "当前余额",
+			"viewKey": "访问密钥",
+			"balanceValue": "${balance}",
+			"copyKey": "复制密钥",
+			"close": "关闭",
+			"loading": "加载中..."
+		},
+		"toast": {
+			"create": {
+				"successTitle": "创建成功",
+				"successDescriptionClipboard": "密钥已复制到剪贴板。",
+				"successDescription": "密钥生成成功。",
+				"errorTitle": "创建失败",
+				"errorDescription": "请稍后重试。"
+			},
+			"update": {
+				"successTitle": "更新成功",
+				"successDescriptionClipboard": "新的密钥已复制到剪贴板。",
+				"successDescription": "新的密钥生成成功。",
+				"errorTitle": "更新失败",
+				"errorDescription": "请稍后重试。"
+			},
+			"delete": {
+				"successTitle": "已删除",
+				"successDescription": "密钥已移除。",
+				"errorTitle": "删除失败",
+				"errorDescription": "请稍后重试。"
+			},
+			"fetch": {
+				"errorTitle": "获取失败",
+				"errorDescription": "请稍后重试。"
+			},
+			"copy": {
+				"successTitle": "复制成功",
+				"successDescription": "密钥已复制到剪贴板。",
+				"errorTitle": "复制失败",
+				"errorDescription": "请手动复制上方文本。"
+			}
+		}
+	},
+		"orphan": {
+			"title": "仅充值邮箱",
+			"description": "以下邮箱已有余额记录，但尚未颁发访问密钥。",
+			"balance": "余额：${value}"
+		}
+	},
+	"logout": {
+		"title": "确认退出",
+		"description": "确定要退出当前账号吗？",
+		"confirm": "确认退出",
+		"cancel": "返回首页"
+	}
+}
