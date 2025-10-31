@@ -1,6 +1,5 @@
 import { sha256 } from "@noble/hashes/sha256";
 import { bytesToHex } from "@noble/hashes/utils";
-import bcrypt from "bcryptjs";
 import { redis } from "@/server/kv";
 
 const STORAGE_KEY = "app:api-access-keys";
@@ -66,6 +65,13 @@ function deriveAccessKey(email: string) {
 	return bytesToHex(sha256(encoder.encode(email)));
 }
 
+function hashAccessKey(accessKey: string) {
+	const encoder = new TextEncoder();
+	return bytesToHex(
+		sha256(encoder.encode(`access-key:${accessKey}`)),
+	);
+}
+
 export async function listAccessKeys(): Promise<AccessKeyRecord[]> {
 	return readRecords();
 }
@@ -91,7 +97,7 @@ export async function addAccessKey(params: {
 	}
 
 	const accessKey = deriveAccessKey(email);
-	const hash = await bcrypt.hash(accessKey, 10);
+	const hash = hashAccessKey(accessKey);
 
 	const record: AccessKeyRecord = {
 		id: crypto.randomUUID(),
@@ -154,7 +160,7 @@ export async function updateAccessKey(params: {
 	}
 
 	const accessKey = deriveAccessKey(email);
-	const hash = await bcrypt.hash(accessKey, 10);
+	const hash = hashAccessKey(accessKey);
 
 	const target = records[index];
 	if (!target) {
@@ -228,13 +234,7 @@ export async function findAccessKeyOwner(accessKey: string) {
 		return null;
 	}
 
+	const hashedCandidate = hashAccessKey(value);
 	const records = await readRecords();
-	for (const record of records) {
-		const matches = await bcrypt.compare(value, record.hash);
-		if (matches) {
-			return record;
-		}
-	}
-
-	return null;
+	return records.find((record) => record.hash === hashedCandidate) ?? null;
 }
