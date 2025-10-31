@@ -159,7 +159,19 @@
 },
 "nav": {
 	"recharge": "充值余额",
-	"admin": "管理后台"
+	"admin": "管理后台",
+	"keys": "密钥管理"
+},
+"keys": {
+	"title": "API 访问密钥",
+	"description": "使用此密钥来访问 Elink 服务，请妥善保管，必要时及时更新。",
+	"emailLabel": "账号邮箱",
+	"keyLabel": "访问密钥",
+	"cta": "复制密钥",
+	"copied": "已复制到剪贴板",
+	"empty": "当前尚未生成访问密钥。",
+	"ctaGenerate": "生成访问密钥",
+	"helper": "请将此密钥视作密码，不要在公共环境中分享。"
 },
 "checkout": {
 	"title": "充值余额",
@@ -288,7 +300,23 @@
 			}
 		}
 	},
-		"orphan": {
+	"pricing": {
+		"title": "Token 计价",
+		"description": "设置用户每消耗 1000 个 tokens 的收费金额（人民币）。",
+		"inputLabel": "每 1000 tokens 的价格（¥）",
+		"update": "保存价格",
+		"updating": "保存中...",
+		"lastUpdated": "最近更新：{value}",
+		"toast": {
+			"successTitle": "已更新",
+			"successDescription": "新的计价已生效。",
+			"errorTitle": "更新失败",
+			"errorDescription": "保存失败，请稍后重试。",
+			"invalid": "请输入大于 0 的有效数字。",
+			"unauthorized": "你没有修改计价的权限。"
+		}
+	},
+	"orphan": {
 			"title": "仅充值邮箱",
 			"description": "以下邮箱已有余额记录，但尚未颁发访问密钥。",
 			"balance": "余额：${value}"

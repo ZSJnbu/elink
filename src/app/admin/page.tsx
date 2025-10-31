@@ -3,10 +3,12 @@ import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 import { AccessKeyManager } from "@/components/admin/access-key-manager";
+import { TokenPricingCard } from "@/components/admin/token-pricing-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { listAccessKeys } from "@/server/api-keys/store";
 import { listBalances } from "@/server/billing/store";
+import { getTokenPricing } from "@/server/billing/pricing";
 
 export const dynamic = "force-dynamic";
 
@@ -16,10 +18,13 @@ export default async function AdminPage() {
 		redirect("/");
 	}
 
-const t = await getTranslations("admin");
+	const t = await getTranslations("admin");
 
-	const records = await listAccessKeys();
-	const balances = await listBalances();
+	const [records, balances, pricing] = await Promise.all([
+		listAccessKeys(),
+		listBalances(),
+		getTokenPricing(),
+	]);
 
 	const balanceMap = new Map(balances.map((item) => [item.email, item.balance]));
 
@@ -63,6 +68,12 @@ const t = await getTranslations("admin");
 					</Button>
 				</div>
 			</div>
+			<TokenPricingCard
+				price={pricing.pricePerThousandTokens}
+				updatedAt={pricing.updatedAt}
+				updatedBy={pricing.updatedBy}
+				currentUserEmail={session.user?.email ?? undefined}
+			/>
 			<AccessKeyManager keys={keys} />
 			{orphanBalances.length > 0 ? (
 				<Card className="mt-4">

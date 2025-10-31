@@ -21,15 +21,20 @@ export default async function SiteHeader() {
 				<Logo />
 
 				{/* Navigation */}
-		<nav className="flex items-center gap-2">
-			<Button variant="ghost" size="sm" asChild>
-				<Link href="/checkout">{t("recharge")}</Link>
-			</Button>
-			{isAdmin ? (
-				<Button variant="ghost" size="sm" asChild>
-					<Link href="/admin">{t("admin")}</Link>
-				</Button>
-			) : null}
+				<nav className="flex items-center gap-2">
+					<Button variant="ghost" size="sm" asChild>
+						<Link href="/checkout">{t("recharge")}</Link>
+					</Button>
+					{session?.user ? (
+						<Button variant="ghost" size="sm" asChild>
+							<Link href="/keys">{t("keys")}</Link>
+						</Button>
+					) : null}
+					{isAdmin ? (
+						<Button variant="ghost" size="sm" asChild>
+							<Link href="/admin">{t("admin")}</Link>
+						</Button>
+					) : null}
 					<FeedbackDialog />
 					<SettingsButton />
 					<ThemeToggle />

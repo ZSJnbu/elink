@@ -159,7 +159,19 @@
 },
 "nav": {
 	"recharge": "Top Up",
-	"admin": "Admin"
+	"admin": "Admin",
+	"keys": "API Keys"
+},
+"keys": {
+	"title": "API Access Key",
+	"description": "Use this key to authenticate requests to Elink services. Keep it secure and rotate it regularly if needed.",
+	"emailLabel": "Account email",
+	"keyLabel": "Access key",
+	"cta": "Copy key",
+	"copied": "Copied to clipboard",
+	"empty": "No access key available yet.",
+	"ctaGenerate": "Generate access key",
+	"helper": "Treat this key like a password. Do not share it publicly."
 },
 "checkout": {
 	"title": "Top Up Balance",
@@ -286,6 +298,22 @@
 				"errorTitle": "Copy failed",
 				"errorDescription": "Please copy the text manually."
 			}
+		}
+	},
+	"pricing": {
+		"title": "Token Pricing",
+		"description": "Set how much users are charged for every 1,000 tokens consumed.",
+		"inputLabel": "Price per 1,000 tokens (CNY)",
+		"update": "Save pricing",
+		"updating": "Saving...",
+		"lastUpdated": "Last updated {value}",
+		"toast": {
+			"successTitle": "Pricing updated",
+			"successDescription": "New price applied successfully.",
+			"errorTitle": "Update failed",
+			"errorDescription": "Something went wrong. Please try again later.",
+			"invalid": "Please enter a valid number greater than 0.",
+			"unauthorized": "You do not have permission to change pricing."
 		}
 	},
 		"orphan": {

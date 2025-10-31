@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { getBalance, deductBalance, addUsageRecord } from "@/server/billing/store";
+import { getTokenPricing } from "@/server/billing/pricing";
 import {
 	createPaymentOrder,
 	findPaymentOrderById,
@@ -125,8 +126,8 @@ export async function chargeUsageForTokens(email: string, tokens: number) {
 		throw new Error("Token 数量无效");
 	}
 
-	const priceForThousandToken = 1; // $1 for 1000 tokens
-	const rawCost = priceForThousandToken * tokensUsed / 1000;
+	const { pricePerThousandTokens } = await getTokenPricing();
+	const rawCost = (pricePerThousandTokens * tokensUsed) / 1000;
 	const cost = Math.round(rawCost * 100) / 100;
 	if (cost <= 0) {
 		return {
