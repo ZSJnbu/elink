@@ -1,0 +1,1 @@
+var t={},h=(o,r,_)=>(t.__chunk_12642=(a,s,e)=>{"use strict";e.d(s,{A:()=>l});let l=(0,e(50283).A)("plus",[["path",{d:"M5 12h14",key:"1ays0h"}],["path",{d:"M12 5v14",key:"s699le"}]])},t);export{h as __getNamedExports};

@@ -1,0 +1,1 @@
+var t={},a=(r,s,h)=>(t.__chunk_81135=(_,c,e)=>{"use strict";e.d(c,{A:()=>o});let o=(0,e(50283).A)("copy",[["rect",{width:"14",height:"14",x:"8",y:"8",rx:"2",ry:"2",key:"17jyea"}],["path",{d:"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2",key:"zix9uf"}]])},t);export{a as __getNamedExports};

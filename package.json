@@ -18,7 +18,7 @@
 		"format:check": "biome format --check .",
 		"format:write": "biome format --write .",
 		"preview": "next build && next start",
-		"cf:build": "npx @cloudflare/next-on-pages",
+		"cf:build": "npx @cloudflare/next-on-pages && mkdir -p .vercel/output/static && : > .vercel/output/static/.assetsignore",
 		"cf:preview": "npx @cloudflare/next-on-pages --serve",
 		"start": "next start",
 		"typecheck": "tsc --noEmit"
@@ -83,7 +83,7 @@
 		"drizzle-kit": "^0.31.4",
 		"postcss": "^8.5.6",
 		"tailwindcss": "^4.1.11",
-		"wrangler": "^3.102.0",
+		"wrangler": "^4.45.3",
 		"tsx": "^4.20.3",
 		"typescript": "^5.8.3"
 	},
