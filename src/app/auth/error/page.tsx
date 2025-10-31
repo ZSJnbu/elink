@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 
 export const runtime = "edge";
 
+
 interface ErrorPageProps {
 	searchParams: Promise<{
 		error?: string;
