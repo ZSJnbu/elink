@@ -6,6 +6,9 @@ import {
 	updatePaymentOrder,
 } from "@/server/billing/orders";
 
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 type Payload = Record<string, string>;
 
 function formDataToRecord(formData: FormData): Payload {

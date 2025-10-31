@@ -4,6 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
+export const runtime = "edge";
+
 export default async function ThanksPage() {
 	const t = await getTranslations("thanks");
 

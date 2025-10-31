@@ -1,4 +1,5 @@
-import { createHash } from "crypto";
+import { sha256 } from "@noble/hashes/sha256";
+import { bytesToHex } from "@noble/hashes/utils";
 import bcrypt from "bcryptjs";
 import { redis } from "@/server/kv";
 
@@ -61,7 +62,8 @@ function normalizeEmail(raw: string) {
 }
 
 function deriveAccessKey(email: string) {
-	return createHash("sha256").update(email).digest("hex");
+	const encoder = new TextEncoder();
+	return bytesToHex(sha256(encoder.encode(email)));
 }
 
 export async function listAccessKeys(): Promise<AccessKeyRecord[]> {

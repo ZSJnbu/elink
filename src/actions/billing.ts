@@ -228,12 +228,16 @@ export async function getPaymentOrderStatusAction(
 						mapiPayload: query,
 					});
 
-					const codeValue = query?.code;
+					const codeValueRaw = query?.code;
+					const normalizedCode =
+						codeValueRaw != null
+							? String(codeValueRaw).trim()
+							: "";
+					const normalizedCodeUpper = normalizedCode.toUpperCase();
 					const codeOk =
-						codeValue === 1 ||
-						codeValue === "1" ||
-						(typeof codeValue === "string" &&
-							codeValue.trim().toUpperCase() === "SUCCESS");
+						normalizedCode === "1" ||
+						normalizedCodeUpper === "1" ||
+						normalizedCodeUpper === "SUCCESS";
 
 					const rawStatus =
 						query?.status ??

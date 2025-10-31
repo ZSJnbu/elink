@@ -177,6 +177,15 @@ curl 'http://localhost:3000/api/external-links?text=Search%20engine%20optimizati
 - Redis 为强制依赖，请在所有环境中配置有效的 `UPSTASH_REDIS_*` 凭证，否则应用将无法启动。
 - 邮件登录依赖 SMTP，请根据实际场景配置 `EMAIL_SERVER` 或改造登录方式。
 
+### 部署到 Cloudflare Pages
+1. **安装依赖**：仓库已内置 `@cloudflare/next-on-pages` 与 `wrangler`，运行 `bun install` 会同步准备 Cloudflare 插件。
+2. **构建命令**：在 Cloudflare Pages 控制台的项目设置中，将 Build command 设置为 `bun run cf:build`，Output directory 保持为 `.vercel/output/static`。
+3. **环境变量**：在 Pages 的 `Settings → Environment Variables` 中补齐生产环境所需变量（见上表，尤其是 `AUTH_SECRET`、`UPSTASH_REDIS_*`、`NEXTAUTH_URL` 等）。
+4. **Node 兼容性**：`wrangler.toml` 已开启 `nodejs_compat` 标志，用于支持项目中的 Node API。部署时无需额外配置。
+5. **本地预览**：可运行 `bun run cf:preview` 使用 Cloudflare 模拟器验证构建。
+
+> Cloudflare Workers 环境不支持直接建立 SMTP 连接，因此如果需要邮箱登录，请改用 Resend、Plunk 等基于 HTTP 的邮件服务并在环境变量中启用相应密钥。
+
 ---
 
 更多关于 T3 Stack 的使用指南，可参考官方文档：<https://create.t3.gg/>。如在使用过程中发现问题，欢迎提交 Issue 或 PR。***

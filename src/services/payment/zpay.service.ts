@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { md5 } from "js-md5";
 import { env } from "@/env";
 import { BaseService } from "../base/base.service";
 import type { PaymentOrder } from "@/server/billing/orders";
@@ -53,10 +53,7 @@ class ZPayService extends BaseService {
 			.filter((key) => key !== "sign" && key !== "sign_type" && params[key] !== "");
 
 		const signSource = sorted.map((key) => `${key}=${params[key]}`).join("&");
-		return createHash("md5")
-			.update(signSource + env.ZPAY_KEY!)
-			.digest("hex")
-			.toLowerCase();
+		return md5(signSource + env.ZPAY_KEY!).toLowerCase();
 	}
 
 	public verifySignature(payload: KeyRecord): boolean {

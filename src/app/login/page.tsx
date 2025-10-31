@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 export default async function SignIn() {
 	// 检查用户是否已登录
 	const session = await auth();

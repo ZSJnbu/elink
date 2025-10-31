@@ -6,6 +6,9 @@ import { TopUpForm } from "@/components/billing/top-up-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 export default async function CheckoutPage() {
 	const session = await auth();
 	const email = session?.user?.email ?? null;

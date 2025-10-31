@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import { UpstashRedisAdapter } from "@auth/upstash-redis-adapter";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
@@ -44,7 +43,9 @@ async function seedAdminUser(adapter: Adapter) {
  */
 const adapter = UpstashRedisAdapter(redis);
 
-await seedAdminUser(adapter);
+seedAdminUser(adapter).catch((error) => {
+	console.error("[auth] failed to seed admin user", error);
+});
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
 	providers: [
@@ -109,8 +110,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 					return existing as AdapterUser;
 				}
 
-				const newUser = await adapter.createUser?.({
-					id: randomUUID(),
+                const newUser = await adapter.createUser?.({
+                    id: crypto.randomUUID(),
 					email,
 					emailVerified: new Date(),
 					role: "user",

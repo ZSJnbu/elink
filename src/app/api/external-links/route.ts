@@ -5,6 +5,9 @@ import type { LinkSearchResult } from "@/types/search";
 import { fetchLinksForKeywords, getKeywords } from "@/actions/keywords";
 import { findAccessKeyOwner } from "@/server/api-keys/store";
 
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 const DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1";
 
 const querySchema = z.object({

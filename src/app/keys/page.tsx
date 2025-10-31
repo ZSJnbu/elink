@@ -6,6 +6,9 @@ import { getTranslations } from "next-intl/server";
 import { auth } from "@/auth";
 import { getAccessKeyByEmail } from "@/server/api-keys/store";
 
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 export default async function KeysPage() {
 	const session = await auth();
 	if (!session?.user?.email) {

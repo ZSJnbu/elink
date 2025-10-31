@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 
+export const runtime = "edge";
+
 export default async function VerifyRequestPage() {
 	const t = await getTranslations("auth.verifyRequest");
 

@@ -2,6 +2,9 @@ import { KeywordEditorContainer } from "@/components/keyword-editor/keyword-edit
 import SiteHeader from "@/components/layout/site-header";
 import { getMessages } from "../messages";
 
+export const dynamic = "force-dynamic";
+export const runtime = "edge";
+
 export default async function EditorPage() {
 	const messages = await getMessages();
 

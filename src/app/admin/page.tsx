@@ -11,6 +11,7 @@ import { listBalances } from "@/server/billing/store";
 import { getTokenPricing } from "@/server/billing/pricing";
 
 export const dynamic = "force-dynamic";
+export const runtime = "edge";
 
 export default async function AdminPage() {
 	const session = await auth();

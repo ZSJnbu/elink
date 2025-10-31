@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { redis } from "@/server/kv";
 import { adjustBalance } from "./store";
 import { ensureAccessKeyForEmail } from "@/server/api-keys/store";
@@ -127,7 +126,7 @@ export async function createPaymentOrder(params: {
 		: undefined;
 
 	const order: PaymentOrder = {
-		id: randomUUID(),
+		id: crypto.randomUUID(),
 		orderNo: generateOrderNo(),
 		email,
 		amount,

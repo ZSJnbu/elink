@@ -3,6 +3,8 @@ import SiteHeader from "@/components/layout/site-header";
 import { Button } from "@/components/ui/button";
 import { getMessages } from "./messages";
 
+export const runtime = "edge";
+
 export default async function Home() {
 	const messages = await getMessages();
 	const featureItems = [
