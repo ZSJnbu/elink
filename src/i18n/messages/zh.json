@@ -157,11 +157,55 @@
 			"backToHome": "返回首页"
 		}
 	},
-"nav": {
-	"recharge": "充值余额",
-	"admin": "管理后台",
-	"keys": "密钥管理"
-},
+	"nav": {
+		"recharge": "充值余额",
+		"admin": "管理后台",
+		"keys": "密钥管理",
+		"guide": "使用说明"
+	},
+	"guidePage": {
+		"title": "平台使用说明",
+		"intro": "本页面介绍如何快速使用外链优化平台，并演示如何通过外部系统远程调用。",
+		"sections": {
+			"gettingStarted": {
+				"title": "快速上手",
+				"items": {
+					"env": "在管理后台颁发访问密钥，或在 .env.local 中配置默认密钥与必要的 API 凭证。",
+					"login": "使用邮箱或管理员账号登录，登录完成后系统会自动跳转至外链优化编辑器。",
+					"editor": "在“外链优化”页面输入英文文本，配置偏好网站与黑名单后点击“生成外链”。",
+					"settings": "在“设置”面板中可切换语言、主题，并配置自定义模型、Serper 访问密钥等参数。",
+					"billing": "如需充值平台余额，可在导航栏点击“充值余额”进入扫码支付流程。"
+				}
+			},
+			"webFeatures": {
+				"title": "界面功能概览",
+				"items": {
+					"keywords": "系统会调用 AI 自动提炼关键词，并为每个关键词生成推荐链接和备选链接。",
+					"history": "管理员可在“管理后台”管理访问密钥并查看使用记录。",
+					"feedback": "任何页面均可通过右上角的反馈按钮提交建议或问题。"
+				}
+			}
+		},
+		"api": {
+			"title": "远程调用",
+			"description": "外部系统可以通过 GET 接口 `/api/external-links` 调用外链推荐服务，需要携带有效的访问密钥。",
+			"paramsTitle": "核心查询参数",
+			"params": {
+				"text": "`text`：需要分析的英文文本，必填。",
+				"accessKey": "`accessKey`：管理员后台生成的访问密钥，必填。",
+				"preferredSites": "`preferredSites`：可选，按逗号分隔的优先推荐域名。",
+				"blacklist": "`blacklist`：可选，按逗号分隔的需排除域名。",
+				"model": "`model`、`provider`、`baseUrl`、`apiKey`：可选，用于调用自定义模型。"
+			},
+			"exampleTitle": "Curl 示例",
+			"example": "curl 'https://your-domain.com/api/external-links?text=Search%20engine%20optimization%20is%20crucial&preferredSites=moz.com&blacklist=example.com&accessKey=your-issued-access-key'"
+		},
+		"nextStepsTitle": "更多资源",
+		"nextSteps": {
+			"readme": "查看项目 README 了解部署、环境变量等高级配置。",
+			"support": "遇到问题可在反馈弹窗留言，或联系管理员获取帮助。"
+		}
+	},
 "keys": {
 	"title": "API 访问密钥",
 	"description": "使用此密钥来访问 Elink 服务，请妥善保管，必要时及时更新。",

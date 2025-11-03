@@ -157,11 +157,55 @@
 			"backToHome": "Back to Home"
 		}
 	},
-"nav": {
-	"recharge": "Top Up",
-	"admin": "Admin",
-	"keys": "API Keys"
-},
+	"nav": {
+		"recharge": "Top Up",
+		"admin": "Admin",
+		"keys": "API Keys",
+		"guide": "Guide"
+	},
+	"guidePage": {
+		"title": "Usage Guide",
+		"intro": "This page walks you through the external links optimizer and shows how to call it from other systems.",
+		"sections": {
+			"gettingStarted": {
+				"title": "Quick Start",
+				"items": {
+					"env": "Issue an access key in the admin portal or configure the default credentials in `.env.local`.",
+					"login": "Sign in with your email or the admin account; after a successful login you will be redirected to the optimizer.",
+					"editor": "In the “External Links” editor enter the English text, adjust preferred sites or blacklist, then click “Generate”.",
+					"settings": "Use the Settings panel to switch language/theme and provide custom model or Serper API keys.",
+					"billing": "Need credit? Click “Top Up” in the navigation bar to open the QR-code payment flow."
+				}
+			},
+			"webFeatures": {
+				"title": "Interface Highlights",
+				"items": {
+					"keywords": "The AI extracts keywords and returns recommended links plus alternatives for each keyword.",
+					"history": "Administrators can manage access keys and review usage inside the Admin portal.",
+					"feedback": "A feedback button is always available in the header for questions or suggestions."
+				}
+			}
+		},
+		"api": {
+			"title": "Remote API",
+			"description": "External systems can call the GET endpoint `/api/external-links` with a valid access key to obtain link suggestions.",
+			"paramsTitle": "Key Query Parameters",
+			"params": {
+				"text": "`text`: Required. The English content to analyse.",
+				"accessKey": "`accessKey`: Required. The access key issued from the admin portal.",
+				"preferredSites": "`preferredSites`: Optional. Comma-separated list of domains to prioritise.",
+				"blacklist": "`blacklist`: Optional. Comma-separated domains to exclude.",
+				"model": "`model`, `provider`, `baseUrl`, `apiKey`: Optional. Supply these to use a custom model."
+			},
+			"exampleTitle": "Curl Example",
+			"example": "curl 'https://your-domain.com/api/external-links?text=Search%20engine%20optimization%20is%20crucial&preferredSites=moz.com&blacklist=example.com&accessKey=your-issued-access-key'"
+		},
+		"nextStepsTitle": "More Resources",
+		"nextSteps": {
+			"readme": "Check the project README for deployment details and environment variables.",
+			"support": "Need help? Use the feedback dialog or contact an administrator."
+		}
+	},
 "keys": {
 	"title": "API Access Key",
 	"description": "Use this key to authenticate requests to Elink services. Keep it secure and rotate it regularly if needed.",

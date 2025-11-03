@@ -25,6 +25,9 @@ export default async function SiteHeader() {
 					<Button variant="ghost" size="sm" asChild>
 						<Link href="/checkout">{t("recharge")}</Link>
 					</Button>
+					<Button variant="ghost" size="sm" asChild>
+						<Link href="/guide">{t("guide")}</Link>
+					</Button>
 					{session?.user ? (
 						<Button variant="ghost" size="sm" asChild>
 							<Link href="/keys">{t("keys")}</Link>
