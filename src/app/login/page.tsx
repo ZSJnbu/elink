@@ -58,6 +58,8 @@ export default async function SignIn() {
 									successDescription: t("email.successDescription"),
 									errorTitle: t("email.errorTitle"),
 									errorDescription: t("email.errorDescription"),
+									invalidEmailTitle: t("email.invalidEmailTitle"),
+									invalidEmailDescription: t("email.invalidEmailDescription"),
 								}}
 								onSubmit={signInWithEmail}
 							/>

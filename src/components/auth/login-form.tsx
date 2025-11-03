@@ -17,6 +17,8 @@ interface LoginFormProps {
 		successDescription: string;
 		errorTitle: string;
 		errorDescription: string;
+		invalidEmailTitle: string;
+		invalidEmailDescription: string;
 	};
 	onSubmit: (email: string) => Promise<void>;
 }
@@ -43,14 +45,14 @@ export function LoginForm({ messages, onSubmit }: LoginFormProps) {
 		const trimmedEmail = email.trim();
 		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-		if (!emailPattern.test(trimmedEmail)) {
-			toast({
-				title: messages.errorTitle,
-				description: messages.errorDescription,
-				variant: "destructive",
-			});
-			return;
-		}
+			if (!emailPattern.test(trimmedEmail)) {
+				toast({
+					title: messages.invalidEmailTitle,
+					description: messages.invalidEmailDescription,
+					variant: "destructive",
+				});
+				return;
+			}
 
 		setEmail(trimmedEmail);
 		setIsLoading(true);

@@ -137,8 +137,10 @@
 				"sending": "Signing in...",
 				"successTitle": "Login successful",
 				"successDescription": "Redirecting to the external links optimizer",
-				"errorTitle": "Invalid email",
-				"errorDescription": "Please enter a valid email address"
+				"errorTitle": "Sign-in failed",
+				"errorDescription": "Please try again or contact an administrator.",
+				"invalidEmailTitle": "Invalid email",
+				"invalidEmailDescription": "Please enter a valid email address"
 			}
 		},
 		"verifyRequest": {

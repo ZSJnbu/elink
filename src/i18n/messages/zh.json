@@ -137,8 +137,10 @@
 				"sending": "正在登录...",
 				"successTitle": "登录成功",
 				"successDescription": "正在跳转到外链优化页面",
-				"errorTitle": "邮箱格式错误",
-				"errorDescription": "请输入正确格式的邮箱地址"
+				"errorTitle": "登录失败",
+				"errorDescription": "请稍后重试或联系管理员",
+				"invalidEmailTitle": "邮箱格式错误",
+				"invalidEmailDescription": "请输入正确格式的邮箱地址"
 			}
 		},
 		"verifyRequest": {
