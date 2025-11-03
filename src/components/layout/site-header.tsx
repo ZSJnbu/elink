@@ -14,11 +14,20 @@ export default async function SiteHeader() {
 	const isAdmin = session?.user?.isAdmin;
 	const t = await getTranslations("nav");
 
-	return (
-		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-			<div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4">
-				{/* Logo */}
-				<Logo />
+		return (
+			<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+				<div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4">
+					{/* Logo */}
+					<div className="flex items-center gap-2">
+						<Logo />
+						<Link
+							href="/"
+							className="font-semibold text-lg text-foreground transition-colors hover:text-primary"
+							aria-label="Elink"
+						>
+							Elink
+						</Link>
+					</div>
 
 				{/* Navigation */}
 				<nav className="flex items-center gap-2">
