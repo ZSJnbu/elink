@@ -236,5 +236,29 @@ export async function findAccessKeyOwner(accessKey: string) {
 
 	const hashedCandidate = hashAccessKey(value);
 	const records = await readRecords();
-	return records.find((record) => record.hash === hashedCandidate) ?? null;
+	for (let index = 0; index < records.length; index++) {
+		const record = records[index]!;
+
+		if (record.hash === hashedCandidate) {
+			return record;
+		}
+
+		const legacyAccessKey = deriveAccessKey(record.email);
+		if (value === legacyAccessKey) {
+			if (record.hash !== hashedCandidate) {
+				const updated: AccessKeyRecord = {
+					...record,
+					hash: hashedCandidate,
+				};
+				const nextRecords = [...records];
+				nextRecords[index] = updated;
+				await writeRecords(nextRecords);
+				return updated;
+			}
+
+			return record;
+		}
+	}
+
+	return null;
 }
