@@ -17,6 +17,24 @@ function hasSignInError(redirectUrl: string | undefined) {
 	}
 }
 
+function resolveRedirectPath(
+	redirectUrl: string | undefined,
+	fallback: string,
+) {
+	if (!redirectUrl) {
+		return fallback;
+	}
+
+	try {
+		const parsed = new URL(redirectUrl);
+		const path = `${parsed.pathname}${parsed.search}${parsed.hash}`;
+		return path.startsWith("/") ? path : fallback;
+	} catch (error) {
+		console.warn("Failed to resolve redirect path", error);
+		return redirectUrl.startsWith("/") ? redirectUrl : fallback;
+	}
+}
+
 export async function signInWithEmail(
 	email: string,
 ): Promise<{ redirectTo: string }> {
@@ -30,7 +48,9 @@ export async function signInWithEmail(
 			throw new Error("登录失败，请重试");
 		}
 
-		return { redirectTo: redirectUrl ?? "/editor" };
+		return {
+			redirectTo: resolveRedirectPath(redirectUrl, "/editor"),
+		};
 	} catch (error) {
 		console.error("Sign in error:", error);
 		throw new Error("登录失败，请重试");
@@ -52,7 +72,9 @@ export async function signInWithAdminCredentials(
 			throw new Error("管理员登录失败");
 		}
 
-		return { redirectTo: redirectUrl ?? "/admin" };
+		return {
+			redirectTo: resolveRedirectPath(redirectUrl, "/admin"),
+		};
 	} catch (error) {
 		console.error("Admin sign in error:", error);
 		throw new Error("管理员登录失败");
