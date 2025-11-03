@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import SiteHeader from "@/components/layout/site-header";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -12,9 +13,11 @@ export default async function GuidePage() {
 	const nextStepKeys = ["readme", "support"] as const;
 
 	return (
-		<main className="flex-1">
-			<section className="w-full py-16">
-				<div className="mx-auto max-w-4xl space-y-10 px-4">
+		<>
+			<SiteHeader />
+			<main className="flex-1">
+				<section className="w-full py-16">
+					<div className="mx-auto max-w-4xl space-y-10 px-4">
 					<header className="space-y-3">
 						<h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
 							{t("title")}
@@ -86,5 +89,6 @@ export default async function GuidePage() {
 				</div>
 			</section>
 		</main>
+	</>
 	);
 }
