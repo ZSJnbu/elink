@@ -3,15 +3,6 @@
 import { redirect } from "next/navigation";
 import { signIn, signOut } from "@/auth";
 
-function isRedirectError(error: unknown): error is { digest: string } {
-	return (
-		typeof error === "object" &&
-		error !== null &&
-		"digest" in error &&
-		(error as { digest?: string }).digest === "NEXT_REDIRECT"
-	);
-}
-
 function hasSignInError(redirectUrl: string | undefined) {
 	if (!redirectUrl) {
 		return false;
@@ -26,7 +17,9 @@ function hasSignInError(redirectUrl: string | undefined) {
 	}
 }
 
-export async function signInWithEmail(email: string) {
+export async function signInWithEmail(
+	email: string,
+): Promise<{ redirectTo: string }> {
 	try {
 		const redirectUrl = (await signIn("email-login", {
 			email,
@@ -37,12 +30,8 @@ export async function signInWithEmail(email: string) {
 			throw new Error("登录失败，请重试");
 		}
 
-		redirect("/editor");
+		return { redirectTo: redirectUrl ?? "/editor" };
 	} catch (error) {
-		if (isRedirectError(error)) {
-			throw error;
-		}
-
 		console.error("Sign in error:", error);
 		throw new Error("登录失败，请重试");
 	}
@@ -51,7 +40,7 @@ export async function signInWithEmail(email: string) {
 export async function signInWithAdminCredentials(
 	username: string,
 	password: string,
-) {
+): Promise<{ redirectTo: string }> {
 	try {
 		const redirectUrl = (await signIn("admin-credentials", {
 			username,
@@ -63,12 +52,8 @@ export async function signInWithAdminCredentials(
 			throw new Error("管理员登录失败");
 		}
 
-		redirect("/admin");
+		return { redirectTo: redirectUrl ?? "/admin" };
 	} catch (error) {
-		if (isRedirectError(error)) {
-			throw error;
-		}
-
 		console.error("Admin sign in error:", error);
 		throw new Error("管理员登录失败");
 	}

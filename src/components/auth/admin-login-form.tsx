@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +9,10 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
 interface AdminLoginFormProps {
-	onSubmit: (username: string, password: string) => Promise<void>;
+	onSubmit: (
+		username: string,
+		password: string,
+	) => Promise<{ redirectTo: string }>;
 }
 
 export function AdminLoginForm({ onSubmit }: AdminLoginFormProps) {
@@ -16,6 +20,7 @@ export function AdminLoginForm({ onSubmit }: AdminLoginFormProps) {
 	const [password, setPassword] = useState("");
 	const [isPending, startTransition] = useTransition();
 	const { toast } = useToast();
+	const router = useRouter();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -26,15 +31,9 @@ export function AdminLoginForm({ onSubmit }: AdminLoginFormProps) {
 
 		startTransition(async () => {
 			try {
-				await onSubmit(username, password);
+				const result = await onSubmit(username, password);
+				router.push(result.redirectTo);
 			} catch (error) {
-				if (
-					error instanceof Error &&
-					error.message.includes("NEXT_REDIRECT")
-				) {
-					return;
-				}
-
 				console.error("Admin login failed", error);
 				toast({
 					title: "登录失败",

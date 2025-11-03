@@ -2,6 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,22 +21,14 @@ interface LoginFormProps {
 		invalidEmailTitle: string;
 		invalidEmailDescription: string;
 	};
-	onSubmit: (email: string) => Promise<void>;
+	onSubmit: (email: string) => Promise<{ redirectTo: string }>;
 }
 
 export function LoginForm({ messages, onSubmit }: LoginFormProps) {
 	const [email, setEmail] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const { toast } = useToast();
-
-	const isRedirectError = (error: unknown): error is { digest: string } => {
-		return (
-			typeof error === "object" &&
-			error !== null &&
-			"digest" in error &&
-			(error as { digest?: string }).digest === "NEXT_REDIRECT"
-		);
-	};
+	const router = useRouter();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -45,41 +38,29 @@ export function LoginForm({ messages, onSubmit }: LoginFormProps) {
 		const trimmedEmail = email.trim();
 		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-			if (!emailPattern.test(trimmedEmail)) {
-				toast({
-					title: messages.invalidEmailTitle,
-					description: messages.invalidEmailDescription,
-					variant: "destructive",
-				});
-				return;
-			}
+		if (!emailPattern.test(trimmedEmail)) {
+			toast({
+				title: messages.invalidEmailTitle,
+				description: messages.invalidEmailDescription,
+				variant: "destructive",
+			});
+			return;
+		}
 
 		setEmail(trimmedEmail);
 		setIsLoading(true);
 
 		try {
-			await onSubmit(trimmedEmail);
+			const result = await onSubmit(trimmedEmail);
 
 			// 显示成功提示
 			toast({
 				title: messages.successTitle,
 				description: messages.successDescription,
 			});
-		} catch (error) {
-			// 检查是否是重定向错误（NextAuth 成功登录会抛出重定向）
-			if (
-				(error instanceof Error && error.message.includes("NEXT_REDIRECT")) ||
-				isRedirectError(error)
-			) {
-				// 这是成功的重定向，显示成功消息
-				toast({
-					title: messages.successTitle,
-					description: messages.successDescription,
-				});
-				// 保持加载状态，页面即将跳转
-				return;
-			}
 
+			router.push(result.redirectTo);
+		} catch (error) {
 			// 显示错误提示
 			toast({
 				title: messages.errorTitle,
@@ -89,6 +70,7 @@ export function LoginForm({ messages, onSubmit }: LoginFormProps) {
 
 			// 出错时重置加载状态，允许用户重试
 			setIsLoading(false);
+			return;
 		}
 		// 成功时保持加载状态，避免用户多次点击
 	};
