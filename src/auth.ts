@@ -100,8 +100,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 						? credentials.email.trim().toLowerCase()
 						: "";
 
-				const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-				if (!email || !emailPattern.test(email)) {
+				if (!email) {
 					return null;
 				}
 
