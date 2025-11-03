@@ -26,6 +26,15 @@ export function LoginForm({ messages, onSubmit }: LoginFormProps) {
 	const [isLoading, setIsLoading] = useState(false);
 	const { toast } = useToast();
 
+	const isRedirectError = (error: unknown): error is { digest: string } => {
+		return (
+			typeof error === "object" &&
+			error !== null &&
+			"digest" in error &&
+			(error as { digest?: string }).digest === "NEXT_REDIRECT"
+		);
+	};
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
@@ -56,7 +65,10 @@ export function LoginForm({ messages, onSubmit }: LoginFormProps) {
 			});
 		} catch (error) {
 			// 检查是否是重定向错误（NextAuth 成功登录会抛出重定向）
-			if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+			if (
+				(error instanceof Error && error.message.includes("NEXT_REDIRECT")) ||
+				isRedirectError(error)
+			) {
 				// 这是成功的重定向，显示成功消息
 				toast({
 					title: messages.successTitle,
