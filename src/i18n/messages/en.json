@@ -129,20 +129,20 @@
 		"logout": "Logout",
 		"loginPage": {
 			"title": "Login",
-			"description": "Enter your email address, you will receive a login link.",
+			"description": "Enter your email address to access the external links optimizer instantly.",
 			"email": {
 				"label": "Email Address",
 				"placeholder": "Enter your email address",
-				"submit": "Send Login Link",
-				"sending": "Sending...",
-				"successTitle": "Email sent",
-				"successDescription": "Please check your email inbox",
-				"errorTitle": "Failed to send",
-		"errorDescription": "Unable to send login email, please try again later"
-		}
-	},
-	"verifyRequest": {
-		"title": "Check Your Email",
+				"submit": "Sign in",
+				"sending": "Signing in...",
+				"successTitle": "Login successful",
+				"successDescription": "Redirecting to the external links optimizer",
+				"errorTitle": "Invalid email",
+				"errorDescription": "Please enter a valid email address"
+			}
+		},
+		"verifyRequest": {
+			"title": "Check Your Email",
 			"description": "We've sent a login link to your email",
 			"checkSpam": "If you don't receive the email, please check your spam folder.",
 			"backToLogin": "Back to Login Page"
@@ -153,10 +153,10 @@
 			"configuration": "Server Configuration Error",
 			"default": "An error occurred during authentication",
 			"title": "Authentication Error",
-		"resendVerification": "Resend Verification Email",
-		"backToHome": "Back to Home"
-	}
-},
+			"resendVerification": "Resend Verification Email",
+			"backToHome": "Back to Home"
+		}
+	},
 "nav": {
 	"recharge": "Top Up",
 	"admin": "Admin",

@@ -129,20 +129,20 @@
 		"logout": "注销",
 		"loginPage": {
 			"title": "登录",
-			"description": "输入你的邮箱地址，你会收到登录链接。",
+			"description": "输入你的邮箱地址即可登录外链优化平台。",
 			"email": {
 				"label": "邮箱地址",
 				"placeholder": "输入你的邮箱地址",
-				"submit": "发送登录链接",
-				"sending": "正在发送...",
-				"successTitle": "邮件已发送",
-				"successDescription": "请查看你的邮箱收件箱",
-				"errorTitle": "发送失败",
-		"errorDescription": "无法发送登录邮件，请稍后重试"
-		}
-	},
-	"verifyRequest": {
-		"title": "查看你的邮箱",
+				"submit": "立即登录",
+				"sending": "正在登录...",
+				"successTitle": "登录成功",
+				"successDescription": "正在跳转到外链优化页面",
+				"errorTitle": "邮箱格式错误",
+				"errorDescription": "请输入正确格式的邮箱地址"
+			}
+		},
+		"verifyRequest": {
+			"title": "查看你的邮箱",
 			"description": "我们已发送登录链接至你的邮箱",
 			"checkSpam": "如果未收到邮件，请检查垃圾邮件文件夹。",
 			"backToLogin": "返回登录页面"
@@ -153,10 +153,10 @@
 			"configuration": "服务器配置错误",
 			"default": "认证过程中出现错误",
 			"title": "认证错误",
-		"resendVerification": "重新发送验证邮件",
-		"backToHome": "返回首页"
-	}
-},
+			"resendVerification": "重新发送验证邮件",
+			"backToHome": "返回首页"
+		}
+	},
 "nav": {
 	"recharge": "充值余额",
 	"admin": "管理后台",

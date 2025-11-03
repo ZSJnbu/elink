@@ -31,11 +31,23 @@ export function LoginForm({ messages, onSubmit }: LoginFormProps) {
 
 		// 防止重复提交
 		if (isLoading || !email) return;
+		const trimmedEmail = email.trim();
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+		if (!emailPattern.test(trimmedEmail)) {
+			toast({
+				title: messages.errorTitle,
+				description: messages.errorDescription,
+				variant: "destructive",
+			});
+			return;
+		}
+
+		setEmail(trimmedEmail);
 		setIsLoading(true);
 
 		try {
-			await onSubmit(email);
+			await onSubmit(trimmedEmail);
 
 			// 显示成功提示
 			toast({
