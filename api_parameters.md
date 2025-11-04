@@ -7,7 +7,7 @@
 | Header 名称 | 类型 | 说明 |
 |-------------|------|------|
 | `Content-Type` | `string` | 固定为 `application/json`，表示请求体是 JSON 格式。 |
-| `x-token` | `string` | 请求 Token，来源于授权邮箱：先对邮箱执行 MD5，再将结果通过 SHA256 输出十六进制。可在密钥管理或用户“密钥”页面直接复制。 |
+| `x-token` | `string` | 请求 Token，可在密钥管理或个人“密钥”页面直接复制。 |
 
 ### JSON 请求体字段
 
