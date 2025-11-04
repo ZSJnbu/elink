@@ -1,7 +1,7 @@
-import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { aiGeneratedKeywordSchema } from "@/actions/schema";
+import { getServerAIModel } from "@/lib/ai/server-config";
 import { AppError, Errors } from "@/lib/errors/types";
 import { BaseService } from "@/services/base/base.service";
 import type { KeywordAnalysisResult, KeywordMetadata } from "@/types/keywords";
@@ -60,8 +60,12 @@ export class KeywordAnalysisService extends BaseService {
 	 */
 	private async extractKeywordsFromAI(text: string) {
 		try {
+			const model = getServerAIModel();
+			if (!model) {
+				throw Errors.aiService("请先配置 OpenAI API Key");
+			}
 			const result = await generateObject({
-				model: openai("gpt-4o-mini"),
+				model,
 				system: `
 You are a SEO expert, you need to:
 1. Select 1~3 most valuable keywords/phrases from the text(never select from the heading or title)

@@ -1,9 +1,9 @@
 "use server";
 
-import { createOpenAI, openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject, type LanguageModel } from "ai";
 import { z } from "zod";
-import { env, OPENAI_API_KEY_PLACEHOLDER } from "@/env";
+import { getServerAIModel } from "@/lib/ai/server-config";
 import { catchError } from "@/utils";
 
 const recommendationSchema = z.object({
@@ -44,12 +44,14 @@ export async function generateRecommendation(
 			baseURL: userBaseUrl,
 		});
 		aiModel = customOpenAI(userModel || "gpt-4o-mini");
-	} else if (env.OPENAI_API_KEY !== OPENAI_API_KEY_PLACEHOLDER) {
-		aiModel = openai(userModel || "gpt-4o-mini");
 	} else {
-		return {
-			error: "请先设置您的 OpenAI API Key",
-		};
+		const serverModel = getServerAIModel(userModel);
+		if (!serverModel) {
+			return {
+				error: "请先设置您的 OpenAI API Key",
+			};
+		}
+		aiModel = serverModel;
 	}
 	const [error, result] = await catchError(
 		generateObject({

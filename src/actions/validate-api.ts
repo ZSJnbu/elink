@@ -2,7 +2,7 @@
 
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateText, type LanguageModel } from "ai";
-import { env, OPENAI_API_KEY_PLACEHOLDER } from "@/env";
+import { getDefaultModelName, hasServerAIKey } from "@/lib/ai/server-config";
 import { catchError } from "@/utils";
 
 /**
@@ -41,8 +41,8 @@ export async function validateAPIConfiguration(
 				apiKey,
 				baseURL: baseUrl,
 			});
-			aiModel = customOpenAI(model || "gpt-4o-mini");
-		} else if (env.OPENAI_API_KEY !== OPENAI_API_KEY_PLACEHOLDER) {
+			aiModel = customOpenAI(getDefaultModelName(model));
+		} else if (hasServerAIKey()) {
 			// 使用服务器端的 API key（仅用于测试，实际不应该这样）
 			return {
 				success: false,
@@ -81,7 +81,7 @@ export async function validateAPIConfiguration(
 			if (errorMessage.includes("404")) {
 				return {
 					success: false,
-					message: `模型 "${model || "gpt-4o-mini"}" 不存在，请检查模型名称`,
+					message: `模型 "${getDefaultModelName(model)}" 不存在，请检查模型名称`,
 				};
 			}
 
@@ -115,7 +115,7 @@ export async function validateAPIConfiguration(
 			message: "API 配置验证成功！",
 			details: {
 				provider,
-				model: model || "gpt-4o-mini",
+				model: getDefaultModelName(model),
 				responseTime,
 			},
 		};

@@ -1,11 +1,11 @@
 "use server";
 
-import { createOpenAI, openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject, type LanguageModel } from "ai";
 import { z } from "zod";
 import { chargeUsageForTokens } from "@/actions/billing";
 import { auth } from "@/auth";
-import { env, OPENAI_API_KEY_PLACEHOLDER } from "@/env";
+import { getServerAIModel } from "@/lib/ai/server-config";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { searchGoogle } from "@/lib/serper";
 import type { SerperResponse } from "@/lib/serper/schema";
@@ -257,17 +257,18 @@ export async function getKeywords(
 			baseURL: userBaseUrl,
 		});
 		aiModel = customOpenAI(userModel || "gpt-4o-mini");
-	} else if (env.OPENAI_API_KEY !== OPENAI_API_KEY_PLACEHOLDER) {
-		// 使用服务器端的 API key
-		aiModel = openai(userModel || "gpt-4o-mini");
 	} else {
-		// 没有可用的 API key
-		return {
-			error: {
-				code: "AI_ERROR",
-				message: "请先设置您的 OpenAI API Key",
-			},
-		};
+		const serverModel = getServerAIModel(userModel);
+		if (!serverModel) {
+			// 没有可用的 API key
+			return {
+				error: {
+					code: "AI_ERROR",
+					message: "请先设置您的 OpenAI API Key",
+				},
+			};
+		}
+		aiModel = serverModel;
 	}
 
 	// 5. 继续原有的关键词分析逻辑
