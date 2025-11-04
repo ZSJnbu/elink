@@ -6,7 +6,7 @@ import { AccessKeyManager } from "@/components/admin/access-key-manager";
 import { TokenPricingCard } from "@/components/admin/token-pricing-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { listAccessKeys } from "@/server/api-keys/store";
+import { getAccessTokenForEmail, listAccessKeys } from "@/server/api-keys/store";
 import { listBalances } from "@/server/billing/store";
 import { getTokenPricing } from "@/server/billing/pricing";
 
@@ -48,6 +48,7 @@ export default async function AdminPage() {
 		createdAt: record.createdAt,
 		createdBy: record.createdBy,
 		hashPreview: record.hash.slice(0, 10),
+		accessToken: getAccessTokenForEmail(record.email),
 		balance: balanceMap.get(record.email) ?? 0,
 	}));
 

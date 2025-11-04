@@ -167,18 +167,18 @@
 	},
 	"guidePage": {
 		"title": "External Links API Guide",
-		"intro": "Once your deployment is live, invoke the GET endpoint `/api/external-links` from any system to retrieve link suggestions.",
+		"intro": "Once your deployment is live, send POST requests to `/api/external-links` with a JSON body to retrieve link suggestions from any system.",
 		"api": {
 			"title": "Request examples",
-			"description": "Use the following Curl commands as a template for direct calls or for environments that must route traffic through a proxy.",
+			"description": "Use the following Curl commands (POST + JSON body) as a template for direct calls or for environments that must route traffic through a proxy.",
 			"curlDefaultTitle": "Direct request (no proxy)",
-			"curlDefault": "curl 'https://YOUR_DOMAIN/api/external-links?text=Search%20engine%20optimization%20is%20crucial&model=qwen3-vl-plus&apiKey=YOUR_MODEL_API_KEY&baseUrl=https%3A%2F%2Fdashscope.aliyuncs.com%2Fcompatible-mode%2Fv1&provider=custom&accessKey=YOUR_ACCESS_KEY'",
+			"curlDefault": "curl -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"model\": \"qwen3-vl-plus\",\n    \"apiKey\": \"YOUR_MODEL_API_KEY\",\n    \"baseUrl\": \"https://dashscope.aliyuncs.com/compatible-mode/v1\",\n    \"provider\": \"custom\",\n    \"accessKey\": \"YOUR_ACCESS_KEY\"\n  }'",
 			"curlProxyTitle": "Request through a proxy",
-			"curlProxy": "curl --proxy http://127.0.0.1:7890 'https://YOUR_DOMAIN/api/external-links?text=Search%20engine%20optimization%20is%20crucial&model=qwen3-vl-plus&apiKey=YOUR_MODEL_API_KEY&baseUrl=https%3A%2F%2Fdashscope.aliyuncs.com%2Fcompatible-mode%2Fv1&provider=custom&accessKey=YOUR_ACCESS_KEY'",
-			"note": "Replace YOUR_DOMAIN, YOUR_MODEL_API_KEY, and YOUR_ACCESS_KEY with your actual values. Update the proxy address if you use a different host or port.",
+			"curlProxy": "curl --proxy http://127.0.0.1:7890 -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"model\": \"qwen3-vl-plus\",\n    \"apiKey\": \"YOUR_MODEL_API_KEY\",\n    \"baseUrl\": \"https://dashscope.aliyuncs.com/compatible-mode/v1\",\n    \"provider\": \"custom\",\n    \"accessKey\": \"YOUR_ACCESS_KEY\"\n  }'",
+			"note": "Replace YOUR_DOMAIN, YOUR_MODEL_API_KEY, and YOUR_ACCESS_KEY with your actual values. Also send the `x-token` header (copy it from the key manager modal) and adjust the JSON body or proxy settings as needed.",
 			"copyLabel": "Copy command",
 			"copiedLabel": "Copied",
-			"tableTitle": "Query parameters",
+			"tableTitle": "Body fields",
 			"table": {
 				"headers": {
 					"param": "Parameter",
@@ -225,8 +225,12 @@
 	"description": "Use this key to authenticate requests to Elink services. Keep it secure and rotate it regularly if needed.",
 	"emailLabel": "Account email",
 	"keyLabel": "Access key",
+	"tokenLabel": "Request token (x-token)",
+	"tokenHelper": "Send this token in the `x-token` header for every API call.",
 	"cta": "Copy key",
 	"copied": "Copied to clipboard",
+	"tokenCta": "Copy token",
+	"tokenCopied": "Token copied",
 	"empty": "No access key available yet.",
 	"ctaGenerate": "Generate access key",
 	"helper": "Treat this key like a password. Do not share it publicly."
@@ -294,6 +298,7 @@
 		"item": {
 			"email": "Authorized email: {email}",
 			"hash": "Hash preview: {preview}",
+			"token": "Request token: {token}",
 			"createdAt": "Created at: {value}",
 			"createdBy": "Created by: {value}",
 			"balance": "Balance: ${value}"
@@ -301,7 +306,8 @@
 		"buttons": {
 			"edit": "Edit email",
 			"view": "View key",
-			"delete": "Delete key"
+			"delete": "Delete key",
+			"copyToken": "Copy token"
 		},
 		"dialog": {
 			"createTitle": "Create Access Key",
@@ -320,8 +326,10 @@
 			"viewEmail": "Authorized email",
 			"viewBalance": "Current balance",
 			"viewKey": "Access key",
+			"viewToken": "Request token (x-token)",
 			"balanceValue": "${balance}",
 			"copyKey": "Copy key",
+			"copyToken": "Copy token",
 			"close": "Close",
 			"loading": "Loading..."
 		},
@@ -355,6 +363,12 @@
 				"successDescription": "Key copied to clipboard.",
 				"errorTitle": "Copy failed",
 				"errorDescription": "Please copy the text manually."
+			},
+			"copyToken": {
+				"successTitle": "Copied",
+				"successDescription": "Token copied to clipboard.",
+				"errorTitle": "Copy failed",
+				"errorDescription": "Please copy the token manually."
 			}
 		}
 	},

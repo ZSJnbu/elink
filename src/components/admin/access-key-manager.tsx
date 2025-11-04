@@ -31,6 +31,7 @@ export interface AccessKeyView {
 	createdAt: string;
 	createdBy: string;
 	hashPreview: string;
+	accessToken: string;
 	balance: number;
 }
 
@@ -41,8 +42,8 @@ interface AccessKeyManagerProps {
 export function AccessKeyManager({ keys }: AccessKeyManagerProps) {
 	const router = useRouter();
 	const { toast } = useToast();
-const t = useTranslations("admin.accessKeys");
-const toastT = useTranslations("admin.accessKeys.toast");
+	const t = useTranslations("admin.accessKeys");
+	const toastT = useTranslations("admin.accessKeys.toast");
 
 const [isCreateOpen, setCreateOpen] = useState(false);
 const [emailValue, setEmailValue] = useState("");
@@ -51,6 +52,7 @@ const [isViewOpen, setViewOpen] = useState(false);
 const [viewData, setViewData] = useState<{
 	email: string;
 	accessKey: string;
+	accessToken: string;
 	balance: number;
 } | null>(null);
 	const [isEditOpen, setEditOpen] = useState(false);
@@ -83,6 +85,25 @@ const filteredKeys = useMemo(() => {
 		key.email.toLowerCase().includes(term),
 	);
 }, [searchTerm, sortedKeys]);
+
+	const handleCopyToken = (token: string | undefined) => {
+		if (!token) return;
+		void navigator.clipboard
+			.writeText(token)
+			.then(() =>
+				toast({
+					title: toastT("copyToken.successTitle"),
+					description: toastT("copyToken.successDescription"),
+				}),
+			)
+			.catch(() =>
+				toast({
+					title: toastT("copyToken.errorTitle"),
+					description: toastT("copyToken.errorDescription"),
+					variant: "destructive",
+				}),
+			);
+	};
 
 	const handleCreate = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -166,6 +187,7 @@ const handleView = (item: AccessKeyView) => {
 					setViewData({
 						email: result.record.email,
 						accessKey: result.accessKey,
+						accessToken: result.accessToken,
 						balance: item.balance,
 					});
 					setViewOpen(true);
@@ -319,6 +341,18 @@ const handleView = (item: AccessKeyView) => {
 					<p className="text-xs text-muted-foreground">
 						{t("item.hash", { preview: key.hashPreview })}
 					</p>
+					<div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+						<span className="break-all">
+							{t("item.token", { token: key.accessToken })}
+						</span>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => handleCopyToken(key.accessToken)}
+						>
+							{t("buttons.copyToken")}
+						</Button>
+					</div>
 					<p className="text-xs text-muted-foreground">
 						{t("item.createdAt", {
 							value: new Date(key.createdAt).toLocaleString(),
@@ -408,6 +442,12 @@ const handleView = (item: AccessKeyView) => {
 							{viewData?.accessKey ?? t("dialog.loading")}
 						</p>
 					</div>
+					<div>
+						<Label>{t("dialog.viewToken")}</Label>
+						<p className="mt-1 break-all rounded-md border bg-muted/50 p-2 text-sm">
+							{viewData?.accessToken ?? t("dialog.loading")}
+						</p>
+					</div>
 				</div>
 				<DialogFooter>
 					<Button
@@ -434,6 +474,31 @@ const handleView = (item: AccessKeyView) => {
 						disabled={!viewData?.accessKey}
 					>
 						{t("dialog.copyKey")}
+					</Button>
+					<Button
+						type="button"
+						variant="outline"
+						onClick={() => {
+						if (!viewData?.accessToken) return;
+						void navigator.clipboard
+							.writeText(viewData.accessToken)
+							.then(() =>
+								toast({
+									title: toastT("copyToken.successTitle"),
+									description: toastT("copyToken.successDescription"),
+								}),
+							)
+							.catch(() =>
+								toast({
+									title: toastT("copyToken.errorTitle"),
+									description: toastT("copyToken.errorDescription"),
+									variant: "destructive",
+								}),
+							);
+					}}
+						disabled={!viewData?.accessToken}
+					>
+						{t("dialog.copyToken")}
 					</Button>
 					<Button type="button" onClick={() => setViewOpen(false)}>
 						{t("dialog.close")}

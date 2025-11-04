@@ -1,5 +1,6 @@
 import { sha256 } from "@noble/hashes/sha256";
 import { bytesToHex } from "@noble/hashes/utils";
+import { md5 } from "js-md5";
 import { redis } from "@/server/kv";
 
 const STORAGE_KEY = "app:api-access-keys";
@@ -65,6 +66,13 @@ function deriveAccessKey(email: string) {
 	return bytesToHex(sha256(encoder.encode(email)));
 }
 
+function deriveAccessToken(email: string) {
+	const normalizedEmail = normalizeEmail(email);
+	const encoder = new TextEncoder();
+	const md5Digest = md5(normalizedEmail);
+	return bytesToHex(sha256(encoder.encode(md5Digest)));
+}
+
 function hashAccessKey(accessKey: string) {
 	const encoder = new TextEncoder();
 	return bytesToHex(
@@ -120,7 +128,7 @@ export async function removeAccessKey(id: string): Promise<void> {
 
 export async function getAccessKeyPlain(
 	id: string,
-): Promise<{ record: AccessKeyRecord; accessKey: string } | null> {
+): Promise<{ record: AccessKeyRecord; accessKey: string; accessToken: string } | null> {
 	const records = await readRecords();
 	const record = records.find((item) => item.id === id);
 	if (!record) {
@@ -128,7 +136,8 @@ export async function getAccessKeyPlain(
 	}
 
 	const accessKey = deriveAccessKey(record.email);
-	return { record, accessKey };
+	const accessToken = deriveAccessToken(record.email);
+	return { record, accessKey, accessToken };
 }
 
 export async function updateAccessKey(params: {
@@ -193,7 +202,7 @@ export async function validateAccessKey(candidate: string): Promise<boolean> {
 }
 
 export async function getAccessKeyByEmail(email: string): Promise<
-	| { record: AccessKeyRecord; accessKey: string }
+	| { record: AccessKeyRecord; accessKey: string; accessToken: string }
 	| null
 > {
 	const normalized = normalizeEmail(email);
@@ -210,6 +219,7 @@ export async function getAccessKeyByEmail(email: string): Promise<
 	return {
 		record,
 		accessKey: deriveAccessKey(record.email),
+		accessToken: deriveAccessToken(record.email),
 	};
 }
 
@@ -261,4 +271,8 @@ export async function findAccessKeyOwner(accessKey: string) {
 	}
 
 	return null;
+}
+
+export function getAccessTokenForEmail(email: string): string {
+	return deriveAccessToken(email);
 }

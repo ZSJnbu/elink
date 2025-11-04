@@ -167,18 +167,18 @@
 	},
 	"guidePage": {
 		"title": "外链 API 调用指南",
-		"intro": "部署完成后，可通过 GET 请求 `/api/external-links` 从外部系统直接获取推荐结果。",
+		"intro": "部署完成后，可通过 POST 请求 `/api/external-links` 并在 JSON 请求体中传入参数，从外部系统直接获取推荐结果。",
 		"api": {
 			"title": "调用示例",
-			"description": "下面给出标准请求与代理请求的 Curl 示例，帮助你快速联通线上环境。",
+			"description": "下面给出标准请求与代理请求的 Curl 示例，均采用 POST + JSON 请求体，帮助你快速联通线上环境。",
 			"curlDefaultTitle": "直接访问（无需代理）",
-			"curlDefault": "curl 'https://YOUR_DOMAIN/api/external-links?text=Search%20engine%20optimization%20is%20crucial&model=qwen3-vl-plus&apiKey=YOUR_MODEL_API_KEY&baseUrl=https%3A%2F%2Fdashscope.aliyuncs.com%2Fcompatible-mode%2Fv1&provider=custom&accessKey=YOUR_ACCESS_KEY'",
+			"curlDefault": "curl -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"model\": \"qwen3-vl-plus\",\n    \"apiKey\": \"YOUR_MODEL_API_KEY\",\n    \"baseUrl\": \"https://dashscope.aliyuncs.com/compatible-mode/v1\",\n    \"provider\": \"custom\",\n    \"accessKey\": \"YOUR_ACCESS_KEY\"\n  }'",
 			"curlProxyTitle": "通过代理访问",
-			"curlProxy": "curl --proxy http://127.0.0.1:7890 'https://YOUR_DOMAIN/api/external-links?text=Search%20engine%20optimization%20is%20crucial&model=qwen3-vl-plus&apiKey=YOUR_MODEL_API_KEY&baseUrl=https%3A%2F%2Fdashscope.aliyuncs.com%2Fcompatible-mode%2Fv1&provider=custom&accessKey=YOUR_ACCESS_KEY'",
-			"note": "请将 YOUR_DOMAIN、YOUR_MODEL_API_KEY 与 YOUR_ACCESS_KEY 替换为实际部署域名和密钥，必要时改写代理地址。",
+			"curlProxy": "curl --proxy http://127.0.0.1:7890 -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"model\": \"qwen3-vl-plus\",\n    \"apiKey\": \"YOUR_MODEL_API_KEY\",\n    \"baseUrl\": \"https://dashscope.aliyuncs.com/compatible-mode/v1\",\n    \"provider\": \"custom\",\n    \"accessKey\": \"YOUR_ACCESS_KEY\"\n  }'",
+			"note": "请将 YOUR_DOMAIN、YOUR_MODEL_API_KEY 与 YOUR_ACCESS_KEY 替换为实际部署域名和密钥，必要时改写代理地址或补充其他 JSON 字段。同时在请求头中添加 `x-token`，其值可在密钥管理页面的“查看密钥”弹窗中复制。",
 			"copyLabel": "复制命令",
 			"copiedLabel": "已复制",
-			"tableTitle": "查询参数说明",
+			"tableTitle": "请求体字段说明",
 			"table": {
 				"headers": {
 					"param": "参数",
@@ -225,8 +225,12 @@
 	"description": "使用此密钥来访问 Elink 服务，请妥善保管，必要时及时更新。",
 	"emailLabel": "账号邮箱",
 	"keyLabel": "访问密钥",
+	"tokenLabel": "请求 Token（x-token）",
+	"tokenHelper": "调用 API 时，请将此 Token 放入请求头 `x-token` 中。",
 	"cta": "复制密钥",
 	"copied": "已复制到剪贴板",
+	"tokenCta": "复制 Token",
+	"tokenCopied": "Token 已复制到剪贴板",
 	"empty": "当前尚未生成访问密钥。",
 	"ctaGenerate": "生成访问密钥",
 	"helper": "请将此密钥视作密码，不要在公共环境中分享。"
@@ -294,6 +298,7 @@
 		"item": {
 			"email": "授权邮箱：{email}",
 			"hash": "哈希片段：{preview}",
+			"token": "请求 Token：{token}",
 			"createdAt": "创建时间：{value}",
 			"createdBy": "创建者：{value}",
 			"balance": "余额：${value}"
@@ -301,7 +306,8 @@
 		"buttons": {
 			"edit": "编辑邮箱",
 			"view": "查看密钥",
-			"delete": "删除密钥"
+			"delete": "删除密钥",
+			"copyToken": "复制 Token"
 		},
 		"dialog": {
 			"createTitle": "新增访问密钥",
@@ -320,8 +326,10 @@
 			"viewEmail": "授权邮箱",
 			"viewBalance": "当前余额",
 			"viewKey": "访问密钥",
+			"viewToken": "请求 Token（x-token）",
 			"balanceValue": "${balance}",
 			"copyKey": "复制密钥",
+			"copyToken": "复制 Token",
 			"close": "关闭",
 			"loading": "加载中..."
 		},
@@ -355,6 +363,12 @@
 				"successDescription": "密钥已复制到剪贴板。",
 				"errorTitle": "复制失败",
 				"errorDescription": "请手动复制上方文本。"
+			},
+			"copyToken": {
+				"successTitle": "复制成功",
+				"successDescription": "Token 已复制到剪贴板。",
+				"errorTitle": "复制失败",
+				"errorDescription": "请手动复制上方 Token。"
 			}
 		}
 	},

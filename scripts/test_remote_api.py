@@ -6,7 +6,8 @@ Usage example:
   python scripts/test_remote_api.py \
     --base-url https://elink1.pages.dev \
     --text "Search engine optimization is crucial" \
-    --access-key <your-access-key>
+    --access-key <your-access-key> \
+    --token <x-token-from-admin>
 
 Optional arguments let you specify a custom model, provider, api key, etc.
 """
@@ -17,37 +18,46 @@ import argparse
 import json
 import sys
 import urllib.error
-import urllib.parse
 import urllib.request
 
 
-def build_query(args: argparse.Namespace) -> str:
-    params = {
+def build_payload(args: argparse.Namespace) -> dict[str, object]:
+    payload: dict[str, object] = {
         "text": args.text,
         "accessKey": args.access_key,
     }
 
     if args.model:
-        params["model"] = args.model
+        payload["model"] = args.model
     if args.provider:
-        params["provider"] = args.provider
+        payload["provider"] = args.provider
     if args.api_key:
-        params["apiKey"] = args.api_key
+        payload["apiKey"] = args.api_key
     if args.base_url_param:
-        params["baseUrl"] = args.base_url_param
+        payload["baseUrl"] = args.base_url_param
     if args.preferred_sites:
-        params["preferredSites"] = ",".join(args.preferred_sites)
+        payload["preferredSites"] = args.preferred_sites
     if args.blacklist:
-        params["blacklist"] = ",".join(args.blacklist)
+        payload["blacklist"] = args.blacklist
 
-    return urllib.parse.urlencode(params, doseq=True, safe="/:")
+    return payload
 
 
 def perform_request(args: argparse.Namespace) -> None:
-    query = build_query(args)
-    url = f"{args.base_url.rstrip('/')}/api/external-links?{query}"
+    payload = build_payload(args)
+    url = f"{args.base_url.rstrip('/')}/api/external-links"
+    data = json.dumps(payload).encode("utf-8")
 
-    req = urllib.request.Request(url, headers={"Accept": "application/json"})
+    req = urllib.request.Request(
+        url,
+        data=data,
+        headers={
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "x-token": args.token,
+        },
+        method="POST",
+    )
 
     try:
         with urllib.request.urlopen(req, timeout=args.timeout) as response:
@@ -90,6 +100,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="Access key issued from the admin portal.",
     )
     parser.add_argument(
+        "--token",
+        required=True,
+        help="Request token to send in the x-token header.",
+    )
+    parser.add_argument(
         "--model",
         help="Optional model name (e.g., gpt-4o-mini).",
     )
@@ -103,7 +118,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     )
     parser.add_argument(
         "--base-url-param",
-        help="Optional base URL for the custom provider (maps to baseUrl query parameter).",
+        help="Optional base URL for the custom provider (maps to baseUrl in the JSON body).",
     )
     parser.add_argument(
         "--preferred-sites",

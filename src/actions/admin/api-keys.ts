@@ -64,6 +64,7 @@ export async function getAccessKeyPlainAction(id: string) {
 		success: true,
 		record: sanitizeRecord(result.record),
 		accessKey: result.accessKey,
+		accessToken: result.accessToken,
 	};
 }
 

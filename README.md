@@ -7,7 +7,7 @@
 - **AI 关键词分析**：支持使用内置 OpenAI Key 或外部自定义模型，自动提炼文章中的高价值关键词。
 - **外链推荐**：集成 Serper 搜索服务，可结合偏好域名和黑名单筛选最佳链接。
 - **访问密钥管理**：管理员后台提供密钥的添加、查看、删除能力，接口访问需凭密钥鉴权。
-- **多模型兼容**：GET 接口支持自定义 `baseUrl` + `apiKey`，满足第三方 OpenAI 兼容模型的调用需求。
+- **多模型兼容**：POST 接口支持自定义 `baseUrl` + `apiKey`，满足第三方 OpenAI 兼容模型的调用需求。
 
 ## 快速开始
 1. **环境准备**
@@ -63,7 +63,7 @@ src/
   actions/              # Server Actions（含管理员相关动作）
   app/                  # Next.js App Router 页面与 API
     admin/              # 管理后台入口
-    api/external-links/ # 对外 GET API
+    api/external-links/ # 对外 POST API
     login/              # 登录页（支持邮箱与管理员凭证）
     settings/           # 前台设置页面
   components/
@@ -96,29 +96,29 @@ src/
 ## 外部 API 使用指南
 
 ### 接口概览
-- **请求方式**：`GET`
+- **请求方式**：`POST`
 - **接口地址**：`/api/external-links`
 - **功能说明**：输入英文文本，自动提取关键词并生成外链推荐，同时返回 Token 使用情况。
 
 ### 认证要求
-- 所有请求必须携带有效访问密钥，通过查询参数传递：`?accessKey=<访问密钥>`
+- 所有请求必须携带有效访问密钥，并通过 JSON 请求体中的 `accessKey` 字段传递
+- 另外需要在请求头中添加 `x-token`，其值为“授权邮箱 → MD5 → SHA256”得到的十六进制签名。Token 可在管理后台的密钥详情弹窗中查看与复制。
 - 缺少或传入错误密钥时，接口将返回 `401`，并提示 `"未被授权使用 Elink"`。
 - 密钥需由管理员在后台颁发，录入后仅用于校验，不会回显原文。
 - 使用平台内置 OpenAI Key 的登录用户将按照 `1 美元 / 1000 token` 的汇率从账户余额自动扣费（以 AI 返回的 `totalTokens` 计算）。
 
-### 查询参数
-| 参数名 | 是否必填 | 说明 |
+### 请求体字段
+| 字段名 | 是否必填 | 说明 |
 | ------ | -------- | ---- |
+| `accessKey` | 必填 | 管理后台颁发的访问密钥 |
 | `text` | 必填 | 需要分析的英文文本 |
 | `apiKey` | 可选 | 自定义模型的 API Key；未提供时尝试使用服务端 `OPENAI_API_KEY` |
 | `baseUrl` | 可选 | 自定义模型请求地址，默认 `https://api.openai.com/v1` |
 | `model` | 可选 | AI 模型名称，默认 `gpt-4o-mini` |
 | `provider` | 可选 | 模型提供方（`openai` / `custom`）；选择 `custom` 时必须附带 `apiKey` |
 | `fingerprint` | 可选 | 未登录用户限流识别用指纹 |
-| `blacklist` | 可选 | 需要排除的域名，可逗号分隔或重复传参 |
-| `preferredSites` | 可选 | 优先推荐的域名，可逗号分隔或重复传参 |
-
-> `blacklist` / `preferredSites` 支持以下任何写法：`?blacklist=a.com&blacklist=b.com`、`?blacklist=a.com,b.com`、`?blacklist[]=a.com&blacklist[]=b.com`
+| `blacklist` | 可选 | 需要排除的域名，使用字符串数组传递，如 `["example.com","spam.com"]` |
+| `preferredSites` | 可选 | 优先推荐的域名，使用字符串数组传递 |
 
 ### 响应示例
 ```json
@@ -147,10 +147,18 @@ src/
 
 ### Curl 调用示例
 ```bash
-curl 'http://localhost:3000/api/external-links?text=Search%20engine%20optimization%20is%20crucial&preferredSites=moz.com&blacklist=example.com&accessKey=your-issued-access-key'
+curl -X POST 'http://localhost:3000/api/external-links' \
+  -H 'Content-Type: application/json' \
+  -H 'x-token: your-issued-token' \
+  -d '{
+    "text": "Search engine optimization is crucial",
+    "accessKey": "your-issued-access-key",
+    "preferredSites": ["moz.com"],
+    "blacklist": ["example.com"]
+  }'
 ```
 
-若服务端已配置 `OPENAI_API_KEY` 与 `SERPER_API_KEY`，可省略请求中的 `apiKey`；使用 `provider=custom` 时需提供该模型对应的 `apiKey`/`baseUrl`。
+若服务端已配置 `OPENAI_API_KEY` 与 `SERPER_API_KEY`，可省略请求体中的 `apiKey`；使用 `provider=custom` 时需提供该模型对应的 `apiKey`/`baseUrl`。
 
 ## 余额充值
 - 访问路径：`/checkout`
@@ -163,7 +171,7 @@ curl 'http://localhost:3000/api/external-links?text=Search%20engine%20optimizati
 ## 开发与测试建议
 - **类型检查**：`bun run typecheck`
 - **代码质量**：`bun run lint`（或 `bun run lint:fix` 自动修复）
-- **接口验证**：管理员后台颁发访问密钥后，使用 Curl 或 Postman 调用 `/api/external-links` 并在查询参数中附带 `accessKey` 进行验证。记得覆盖以下场景：
+- **接口验证**：管理员后台颁发访问密钥后，使用 Curl 或 Postman 调用 `/api/external-links`，在 JSON 请求体中附带 `accessKey`，并在请求头中附带 `x-token` 进行验证。记得覆盖以下场景：
   - 未携带或携带错误密钥 => 返回 401 + `"未被授权使用 Elink"`
   - 携带有效密钥 + 文本 => 返回 200 并生成关键词结果
 - **集成测试建议**：重点覆盖以下场景
