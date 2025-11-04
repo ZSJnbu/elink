@@ -35,7 +35,7 @@ export default async function KeysPage() {
 
 					<Card>
 						<CardHeader>
-							<CardTitle>{t("keyLabel")}</CardTitle>
+							<CardTitle>{t("cardTitle")}</CardTitle>
 							<CardDescription>{t("helper")}</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
@@ -47,41 +47,23 @@ export default async function KeysPage() {
 							</div>
 
 							{accessKeyRecord ? (
-								<div className="space-y-4">
-									<div className="flex flex-col gap-4 rounded-xl border border-border/60 bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between">
-										<div className="min-w-0">
-											<p className="text-xs font-semibold uppercase text-muted-foreground">
-												{t("keyLabel")}
-											</p>
-											<p className="mt-2 break-all font-mono text-base sm:text-lg">
-												{accessKeyRecord.accessKey}
-											</p>
-										</div>
-										<CopyAccessKeyButton
-											value={accessKeyRecord.accessKey}
-											label={t("cta")}
-											copiedLabel={t("copied")}
-										/>
+								<div className="flex flex-col gap-4 rounded-xl border border-border/60 bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between">
+									<div className="min-w-0">
+										<p className="text-xs font-semibold uppercase text-muted-foreground">
+											{t("tokenLabel")}
+										</p>
+										<p className="mt-2 break-all font-mono text-base sm:text-lg">
+											{accessKeyRecord.accessToken}
+										</p>
+										<p className="mt-2 text-xs text-muted-foreground">
+											{t("tokenHelper")}
+										</p>
 									</div>
-
-									<div className="flex flex-col gap-4 rounded-xl border border-border/60 bg-muted/20 p-4 sm:flex-row sm:items-center sm:justify-between">
-										<div className="min-w-0">
-											<p className="text-xs font-semibold uppercase text-muted-foreground">
-												{t("tokenLabel")}
-											</p>
-											<p className="mt-2 break-all font-mono text-base sm:text-lg">
-												{accessKeyRecord.accessToken}
-											</p>
-											<p className="mt-2 text-xs text-muted-foreground">
-												{t("tokenHelper")}
-											</p>
-										</div>
-										<CopyAccessKeyButton
-											value={accessKeyRecord.accessToken}
-											label={t("tokenCta")}
-											copiedLabel={t("tokenCopied")}
-										/>
-									</div>
+									<CopyAccessKeyButton
+										value={accessKeyRecord.accessToken}
+										label={t("tokenCta")}
+										copiedLabel={t("tokenCopied")}
+									/>
 								</div>
 							) : (
 								<p className="rounded-xl border border-dashed border-border/60 bg-muted/10 p-4 text-sm text-muted-foreground">

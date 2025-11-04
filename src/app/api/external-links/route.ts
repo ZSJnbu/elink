@@ -3,20 +3,19 @@ import { z } from "zod";
 import type { KeywordMetadata } from "@/types/keywords";
 import type { LinkSearchResult } from "@/types/search";
 import { fetchLinksForKeywords, getKeywords } from "@/actions/keywords";
-import { findAccessKeyOwner, getAccessTokenForEmail } from "@/server/api-keys/store";
+import { getAccessKeyByEmail } from "@/server/api-keys/store";
 
 export const dynamic = "force-dynamic";
 export const runtime = "edge";
 
-const DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1";
-
 const payloadSchema = z.object({
-	accessKey: z
+	email: z
 		.string({
-			required_error: "必须提供 accessKey",
-			invalid_type_error: "accessKey 必须是字符串",
+			required_error: "必须提供 email",
+			invalid_type_error: "email 必须是字符串",
 		})
-		.min(1, "accessKey 不能为空"),
+		.min(1, "email 不能为空")
+		.email("请输入有效的邮箱地址"),
 	text: z
 		.string({
 			required_error: "文本参数 text 为必填",
@@ -24,10 +23,6 @@ const payloadSchema = z.object({
 		})
 		.min(1, "文本参数 text 不能为空"),
 	fingerprint: z.string().optional(),
-	apiKey: z.string().optional(),
-	baseUrl: z.string().optional(),
-	model: z.string().optional(),
-	provider: z.enum(["openai", "custom"]).optional(),
 	blacklist: z.union([z.array(z.string()), z.string()]).optional(),
 	preferredSites: z.union([z.array(z.string()), z.string()]).optional(),
 });
@@ -96,7 +91,7 @@ export async function POST(request: Request) {
 		);
 	}
 
-	const providedAccessKey = parsed.data.accessKey;
+	const normalizedEmail = parsed.data.email.trim().toLowerCase();
 	const providedToken = request.headers.get("x-token")?.trim() ?? undefined;
 
 	if (!providedToken) {
@@ -112,8 +107,8 @@ export async function POST(request: Request) {
 		);
 	}
 
-	const ownerRecord = await findAccessKeyOwner(providedAccessKey);
-	if (!ownerRecord) {
+	const accessKeyRecord = await getAccessKeyByEmail(normalizedEmail);
+	if (!accessKeyRecord) {
 		return NextResponse.json(
 			{
 				success: false,
@@ -126,7 +121,7 @@ export async function POST(request: Request) {
 		);
 	}
 
-	const expectedToken = getAccessTokenForEmail(ownerRecord.email);
+	const expectedToken = accessKeyRecord.accessToken;
 	if (providedToken !== expectedToken) {
 		return NextResponse.json(
 			{
@@ -143,47 +138,21 @@ export async function POST(request: Request) {
 	const {
 		text,
 		fingerprint,
-		apiKey,
-		baseUrl,
-		model,
 		blacklist,
 		preferredSites,
-		provider,
 	} = parsed.data;
 	const normalizedBlacklist = normalizeList(blacklist);
 	const normalizedPreferredSites = normalizeList(preferredSites);
-
-	const resolvedProvider =
-		provider ?? (apiKey ? "custom" : ("openai" as const));
-
-	if (resolvedProvider === "custom" && !apiKey) {
-		return NextResponse.json(
-			{
-				success: false,
-				error: {
-					code: "INVALID_BODY",
-					message:
-						"使用自定义模型时必须提供 apiKey 参数（以及可选的 baseUrl）",
-				},
-			},
-			{ status: 400 },
-		);
-	}
-
-	const resolvedBaseUrl =
-		resolvedProvider === "openai"
-			? baseUrl ?? DEFAULT_OPENAI_BASE_URL
-			: baseUrl;
 
 	try {
 		const keywordResult = await getKeywords(
 			text,
 			fingerprint,
 			0,
-			apiKey || undefined,
-			resolvedBaseUrl || undefined,
-			model || undefined,
-			ownerRecord.email,
+			undefined,
+			undefined,
+			undefined,
+			accessKeyRecord.record.email,
 		);
 
 		if (keywordResult.error) {

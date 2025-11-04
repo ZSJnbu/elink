@@ -172,10 +172,10 @@
 			"title": "调用示例",
 			"description": "下面给出标准请求与代理请求的 Curl 示例，均采用 POST + JSON 请求体，帮助你快速联通线上环境。",
 			"curlDefaultTitle": "直接访问（无需代理）",
-			"curlDefault": "curl -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"model\": \"qwen3-vl-plus\",\n    \"apiKey\": \"YOUR_MODEL_API_KEY\",\n    \"baseUrl\": \"https://dashscope.aliyuncs.com/compatible-mode/v1\",\n    \"provider\": \"custom\",\n    \"accessKey\": \"YOUR_ACCESS_KEY\"\n  }'",
+			"curlDefault": "curl -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"email\": \"user@example.com\",\n    \"preferredSites\": [\"moz.com\"],\n    \"blacklist\": [\"example.com\"]\n  }'",
 			"curlProxyTitle": "通过代理访问",
-			"curlProxy": "curl --proxy http://127.0.0.1:7890 -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"model\": \"qwen3-vl-plus\",\n    \"apiKey\": \"YOUR_MODEL_API_KEY\",\n    \"baseUrl\": \"https://dashscope.aliyuncs.com/compatible-mode/v1\",\n    \"provider\": \"custom\",\n    \"accessKey\": \"YOUR_ACCESS_KEY\"\n  }'",
-			"note": "请将 YOUR_DOMAIN、YOUR_MODEL_API_KEY 与 YOUR_ACCESS_KEY 替换为实际部署域名和密钥，必要时改写代理地址或补充其他 JSON 字段。同时在请求头中添加 `x-token`，其值可在密钥管理页面的“查看密钥”弹窗中复制。",
+			"curlProxy": "curl --proxy http://127.0.0.1:7890 -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"email\": \"user@example.com\",\n    \"preferredSites\": [\"moz.com\"],\n    \"blacklist\": [\"example.com\"]\n  }'",
+			"note": "请将 YOUR_DOMAIN 与 user@example.com 替换为实际部署域名和授权邮箱，必要时改写代理地址或补充其他 JSON 字段。记得在请求头中添加 `x-token`（可在密钥管理页面复制），模型 / API Key / Base URL 由服务器环境变量统一提供。",
 			"copyLabel": "复制命令",
 			"copiedLabel": "已复制",
 			"tableTitle": "请求体字段说明",
@@ -186,43 +186,39 @@
 					"description": "说明"
 				},
 				"rows": {
+					"email": {
+						"param": "`email`",
+						"required": "必填",
+						"description": "已在后台登记的授权邮箱，服务端会基于邮箱计算访问凭证。"
+					},
 					"text": {
 						"param": "`text`",
 						"required": "必填",
 						"description": "需要进行外链分析的英文文本。"
 					},
-					"model": {
-						"param": "`model`",
-						"required": "必填",
-						"description": "指定调用的大模型名称，例如 `qwen3-vl-plus`。"
+					"fingerprint": {
+						"param": "`fingerprint`",
+						"required": "选填",
+						"description": "匿名访客可选指纹，用于限流识别。"
 					},
-					"apiKey": {
-						"param": "`apiKey`",
-						"required": "必填",
-						"description": "自定义大模型的访问密钥，用于完成鉴权。"
+					"blacklist": {
+						"param": "`blacklist`",
+						"required": "选填",
+						"description": "需要排除的域名，支持数组或逗号分隔字符串。"
 					},
-					"baseUrl": {
-						"param": "`baseUrl`",
-						"required": "必填",
-						"description": "自定义大模型兼容接口的 Base URL，需要进行 URL 编码。"
-					},
-					"provider": {
-						"param": "`provider`",
-						"required": "必填",
-						"description": "保持为 `custom`，表示走自定义模型调用路径。"
-					},
-					"accessKey": {
-						"param": "`accessKey`",
-						"required": "必填",
-						"description": "在 Elink 管理后台颁发的访问密钥，用于鉴权。"
+					"preferredSites": {
+						"param": "`preferredSites`",
+						"required": "选填",
+						"description": "优先展示的域名列表，支持数组或逗号分隔字符串。"
 					}
 				}
 			}
 		}
 	},
 "keys": {
-	"title": "API 访问密钥",
-	"description": "使用此密钥来访问 Elink 服务，请妥善保管，必要时及时更新。",
+	"title": "API 调用凭证",
+	"description": "在此复制调用 API 所需的授权邮箱与 x-token 组合。",
+	"cardTitle": "邮箱与 Token",
 	"emailLabel": "账号邮箱",
 	"keyLabel": "访问密钥",
 	"tokenLabel": "请求 Token（x-token）",
@@ -231,9 +227,9 @@
 	"copied": "已复制到剪贴板",
 	"tokenCta": "复制 Token",
 	"tokenCopied": "Token 已复制到剪贴板",
-	"empty": "当前尚未生成访问密钥。",
+	"empty": "当前邮箱尚未生成 Token，请联系管理员授权。",
 	"ctaGenerate": "生成访问密钥",
-	"helper": "请将此密钥视作密码，不要在公共环境中分享。"
+	"helper": "调用时只需此邮箱与 Token，请务必妥善保管。"
 },
 "checkout": {
 	"title": "充值余额",

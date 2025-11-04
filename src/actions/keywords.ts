@@ -3,13 +3,13 @@
 import { createOpenAI, openai } from "@ai-sdk/openai";
 import { generateObject, type LanguageModel } from "ai";
 import { z } from "zod";
+import { chargeUsageForTokens } from "@/actions/billing";
 import { auth } from "@/auth";
-import { env } from "@/env";
+import { env, OPENAI_API_KEY_PLACEHOLDER } from "@/env";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { searchGoogle } from "@/lib/serper";
 import type { SerperResponse } from "@/lib/serper/schema";
 import { catchError } from "@/utils";
-import { chargeUsageForTokens } from "@/actions/billing";
 import { aiGeneratedKeywordSchema, type CompleteKeyword } from "./schema";
 
 /**
@@ -108,7 +108,11 @@ function buildKeywordErrorMessage(error: Error): string {
 		if (item && typeof item === "object") {
 			const details = item as Record<string, unknown>;
 			const code = details.code;
-			if (code && typeof code === "string" && code === "UND_ERR_CONNECT_TIMEOUT") {
+			if (
+				code &&
+				typeof code === "string" &&
+				code === "UND_ERR_CONNECT_TIMEOUT"
+			) {
 				return true;
 			}
 
@@ -119,17 +123,15 @@ function buildKeywordErrorMessage(error: Error): string {
 				reason === "maxRetriesExceeded" &&
 				Array.isArray(nestedErrors)
 			) {
-				return nestedErrors.some(
-					(nested) => {
-						if (!nested || typeof nested !== "object") return false;
-						const nestedDetails = nested as Record<string, unknown>;
-						const nestedCode = nestedDetails.code;
-						return (
-							typeof nestedCode === "string" &&
-							nestedCode === "UND_ERR_CONNECT_TIMEOUT"
-						);
-					},
-				);
+				return nestedErrors.some((nested) => {
+					if (!nested || typeof nested !== "object") return false;
+					const nestedDetails = nested as Record<string, unknown>;
+					const nestedCode = nestedDetails.code;
+					return (
+						typeof nestedCode === "string" &&
+						nestedCode === "UND_ERR_CONNECT_TIMEOUT"
+					);
+				});
 			}
 
 			const status =
@@ -150,36 +152,32 @@ function buildKeywordErrorMessage(error: Error): string {
 		return "关键词分析失败：无法连接到 OpenAI 服务（网络超时）。请检查网络，或在设置页面配置可用的 API Key / Base URL 后再试。";
 	}
 
-	const hasUnauthorized = chain.some(
-		(item) => {
-			if (!item || typeof item !== "object") return false;
-			const details = item as Record<string, unknown>;
-			const status =
-				typeof details.statusCode === "number"
-					? details.statusCode
-					: typeof details.status === "number"
-						? details.status
-						: undefined;
-			return status === 401;
-		},
-	);
+	const hasUnauthorized = chain.some((item) => {
+		if (!item || typeof item !== "object") return false;
+		const details = item as Record<string, unknown>;
+		const status =
+			typeof details.statusCode === "number"
+				? details.statusCode
+				: typeof details.status === "number"
+					? details.status
+					: undefined;
+		return status === 401;
+	});
 	if (hasUnauthorized) {
 		return "关键词分析失败：OpenAI API 认证失败，请检查 API Key 是否有效。";
 	}
 
-	const hasForbidden = chain.some(
-		(item) => {
-			if (!item || typeof item !== "object") return false;
-			const details = item as Record<string, unknown>;
-			const status =
-				typeof details.statusCode === "number"
-					? details.statusCode
-					: typeof details.status === "number"
-						? details.status
-						: undefined;
-			return status === 403;
-		},
-	);
+	const hasForbidden = chain.some((item) => {
+		if (!item || typeof item !== "object") return false;
+		const details = item as Record<string, unknown>;
+		const status =
+			typeof details.statusCode === "number"
+				? details.statusCode
+				: typeof details.status === "number"
+					? details.status
+					: undefined;
+		return status === 403;
+	});
 
 	if (hasForbidden) {
 		return "关键词分析失败：OpenAI API 拒绝访问，请确认账号权限或余额。";
@@ -259,7 +257,7 @@ export async function getKeywords(
 			baseURL: userBaseUrl,
 		});
 		aiModel = customOpenAI(userModel || "gpt-4o-mini");
-	} else if (env.OPENAI_API_KEY) {
+	} else if (env.OPENAI_API_KEY !== OPENAI_API_KEY_PLACEHOLDER) {
 		// 使用服务器端的 API key
 		aiModel = openai(userModel || "gpt-4o-mini");
 	} else {
@@ -318,9 +316,9 @@ export async function getKeywords(
 
 	let billingInfo:
 		| {
-			costCharged: number;
-			remainingBalance?: number;
-		}
+				costCharged: number;
+				remainingBalance?: number;
+		  }
 		| undefined;
 
 	if (billingEmail) {

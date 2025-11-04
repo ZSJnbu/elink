@@ -2,7 +2,7 @@
 
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateText, type LanguageModel } from "ai";
-import { env } from "@/env";
+import { env, OPENAI_API_KEY_PLACEHOLDER } from "@/env";
 import { catchError } from "@/utils";
 
 /**
@@ -42,7 +42,7 @@ export async function validateAPIConfiguration(
 				baseURL: baseUrl,
 			});
 			aiModel = customOpenAI(model || "gpt-4o-mini");
-		} else if (env.OPENAI_API_KEY) {
+		} else if (env.OPENAI_API_KEY !== OPENAI_API_KEY_PLACEHOLDER) {
 			// 使用服务器端的 API key（仅用于测试，实际不应该这样）
 			return {
 				success: false,

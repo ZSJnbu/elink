@@ -3,7 +3,7 @@
 import { createOpenAI, openai } from "@ai-sdk/openai";
 import { generateObject, type LanguageModel } from "ai";
 import { z } from "zod";
-import { env } from "@/env";
+import { env, OPENAI_API_KEY_PLACEHOLDER } from "@/env";
 import { catchError } from "@/utils";
 
 const recommendationSchema = z.object({
@@ -44,7 +44,7 @@ export async function generateRecommendation(
 			baseURL: userBaseUrl,
 		});
 		aiModel = customOpenAI(userModel || "gpt-4o-mini");
-	} else if (env.OPENAI_API_KEY) {
+	} else if (env.OPENAI_API_KEY !== OPENAI_API_KEY_PLACEHOLDER) {
 		aiModel = openai(userModel || "gpt-4o-mini");
 	} else {
 		return {

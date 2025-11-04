@@ -172,10 +172,10 @@
 			"title": "Request examples",
 			"description": "Use the following Curl commands (POST + JSON body) as a template for direct calls or for environments that must route traffic through a proxy.",
 			"curlDefaultTitle": "Direct request (no proxy)",
-			"curlDefault": "curl -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"model\": \"qwen3-vl-plus\",\n    \"apiKey\": \"YOUR_MODEL_API_KEY\",\n    \"baseUrl\": \"https://dashscope.aliyuncs.com/compatible-mode/v1\",\n    \"provider\": \"custom\",\n    \"accessKey\": \"YOUR_ACCESS_KEY\"\n  }'",
+			"curlDefault": "curl -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"email\": \"user@example.com\",\n    \"preferredSites\": [\"moz.com\"],\n    \"blacklist\": [\"example.com\"]\n  }'",
 			"curlProxyTitle": "Request through a proxy",
-			"curlProxy": "curl --proxy http://127.0.0.1:7890 -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"model\": \"qwen3-vl-plus\",\n    \"apiKey\": \"YOUR_MODEL_API_KEY\",\n    \"baseUrl\": \"https://dashscope.aliyuncs.com/compatible-mode/v1\",\n    \"provider\": \"custom\",\n    \"accessKey\": \"YOUR_ACCESS_KEY\"\n  }'",
-			"note": "Replace YOUR_DOMAIN, YOUR_MODEL_API_KEY, and YOUR_ACCESS_KEY with your actual values. Also send the `x-token` header (copy it from the key manager modal) and adjust the JSON body or proxy settings as needed.",
+			"curlProxy": "curl --proxy http://127.0.0.1:7890 -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"email\": \"user@example.com\",\n    \"preferredSites\": [\"moz.com\"],\n    \"blacklist\": [\"example.com\"]\n  }'",
+			"note": "Replace YOUR_DOMAIN and user@example.com with your actual values. Always include the `x-token` header (copy it from the key manager modal). Model/API key/Base URL are resolved from server-side environment variables.",
 			"copyLabel": "Copy command",
 			"copiedLabel": "Copied",
 			"tableTitle": "Body fields",
@@ -186,44 +186,40 @@
 					"description": "Description"
 				},
 				"rows": {
+					"email": {
+						"param": "`email`",
+						"required": "Yes",
+						"description": "Authorized email that has been registered in the admin portal."
+					},
 					"text": {
 						"param": "`text`",
 						"required": "Yes",
 						"description": "English content that should be analysed for backlink suggestions."
 					},
-					"model": {
-						"param": "`model`",
-						"required": "Yes",
-						"description": "Name of the model to invoke, for example `qwen3-vl-plus`."
+					"fingerprint": {
+						"param": "`fingerprint`",
+						"required": "No",
+						"description": "Optional identifier for anonymous visitors used for rate limiting."
 					},
-					"apiKey": {
-						"param": "`apiKey`",
-						"required": "Yes",
-						"description": "API key for the custom model provider."
+					"blacklist": {
+						"param": "`blacklist`",
+						"required": "No",
+						"description": "List of domains to exclude. Accepts an array or comma-separated string."
 					},
-					"baseUrl": {
-						"param": "`baseUrl`",
-						"required": "Yes",
-						"description": "Base URL of the OpenAI-compatible endpoint (URL-encode the value)."
-					},
-					"provider": {
-						"param": "`provider`",
-						"required": "Yes",
-						"description": "Set to `custom` to route the request through your own model provider."
-					},
-					"accessKey": {
-						"param": "`accessKey`",
-						"required": "Yes",
-						"description": "Access key issued from the Elink admin portal."
+					"preferredSites": {
+						"param": "`preferredSites`",
+						"required": "No",
+						"description": "Domains to prioritize in the final recommendations."
 					}
 				}
 			}
 		}
 	},
 "keys": {
-	"title": "API Access Key",
-	"description": "Use this key to authenticate requests to Elink services. Keep it secure and rotate it regularly if needed.",
-	"emailLabel": "Account email",
+	"title": "API Credentials",
+	"description": "Copy the authorized email and x-token pair required for Elink API calls.",
+	"cardTitle": "Email & token",
+	"emailLabel": "Authorized email",
 	"keyLabel": "Access key",
 	"tokenLabel": "Request token (x-token)",
 	"tokenHelper": "Send this token in the `x-token` header for every API call.",
@@ -231,9 +227,9 @@
 	"copied": "Copied to clipboard",
 	"tokenCta": "Copy token",
 	"tokenCopied": "Token copied",
-	"empty": "No access key available yet.",
+	"empty": "No token has been issued for this email yet. Please contact an administrator.",
 	"ctaGenerate": "Generate access key",
-	"helper": "Treat this key like a password. Do not share it publicly."
+	"helper": "All API calls only need this email plus the x-token header. Keep the token private."
 },
 "checkout": {
 	"title": "Top Up Balance",

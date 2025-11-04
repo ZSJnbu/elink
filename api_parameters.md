@@ -13,17 +13,15 @@
 
 | 字段 | 类型 | 是否必填 | 说明 |
 |------|------|----------|------|
-| `accessKey` | `string` | ✅ | 管理后台（或“密钥”页面）颁发的访问密钥。 |
+| `email` | `string` | ✅ | 授权邮箱（需在后台登记），服务端会基于邮箱生成访问凭证。 |
 | `text` | `string` | ✅ | 需要进行外链分析的英文文本。 |
-| `apiKey` | `string` | ❌ | （可选）调用自定义模型时使用的 API Key；若为空则走服务器内置的 `OPENAI_API_KEY`。 |
-| `baseUrl` | `string` | ❌ | （可选）自定义模型的兼容接口地址，使用 HTTP/HTTPS URL。 |
-| `model` | `string` | ❌ | （可选）模型名称，如 `gpt-4o-mini` 或 `qwen3-vl-plus`。 |
-| `provider` | `"openai"`\|`"custom"` | ❌ | （可选）模型提供方，默认为 `openai`。当设置为 `custom` 时必须携带 `apiKey`，可配合 `baseUrl` 使用。 |
 | `fingerprint` | `string` | ❌ | （可选）未登录用户用于限流/识别的指纹 ID。 |
 | `blacklist` | `string[]`\|`string` | ❌ | （可选）需要排除的域名，支持字符串数组或逗号分隔的字符串。 |
 | `preferredSites` | `string[]`\|`string` | ❌ | （可选）优先推荐的域名，支持字符串数组或逗号分隔的字符串。 |
 
 > `blacklist` 与 `preferredSites` 在数组模式下传递更清晰；如果以字符串传入，会自动按逗号切分并去重。
+>
+> 模型名称、API Key 与 Base URL 均由服务器环境变量统一配置，调用方无需再传入。
 
 ### 完整示例
 
@@ -33,18 +31,14 @@ Content-Type: application/json
 x-token: YOUR_X_TOKEN
 
 {
-  "accessKey": "YOUR_ACCESS_KEY",
+  "email": "user@example.com",
   "text": "Search engine optimization is crucial",
-  "provider": "custom",
-  "model": "qwen3-vl-plus",
-  "apiKey": "YOUR_MODEL_API_KEY",
-  "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
   "preferredSites": ["moz.com"],
   "blacklist": ["example.com"]
 }
 ```
 
-将 `YOUR_DOMAIN`、`YOUR_X_TOKEN`、`YOUR_ACCESS_KEY` 等占位符替换为实际值即可完成调用。
+将 `YOUR_DOMAIN`、`YOUR_X_TOKEN`、`user@example.com` 等占位符替换为实际值即可完成调用。
 
 ### 响应字段说明
 

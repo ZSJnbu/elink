@@ -6,10 +6,10 @@ Usage example:
   python scripts/test_remote_api.py \
     --base-url https://elink1.pages.dev \
     --text "Search engine optimization is crucial" \
-    --access-key <your-access-key> \
+    --email user@example.com \
     --token <x-token-from-admin>
 
-Optional arguments let you specify a custom model, provider, api key, etc.
+Optional arguments let you specify blacklist / preferred sites for filtering.
 """
 
 from __future__ import annotations
@@ -24,17 +24,9 @@ import urllib.request
 def build_payload(args: argparse.Namespace) -> dict[str, object]:
     payload: dict[str, object] = {
         "text": args.text,
-        "accessKey": args.access_key,
+        "email": args.email,
     }
 
-    if args.model:
-        payload["model"] = args.model
-    if args.provider:
-        payload["provider"] = args.provider
-    if args.api_key:
-        payload["apiKey"] = args.api_key
-    if args.base_url_param:
-        payload["baseUrl"] = args.base_url_param
     if args.preferred_sites:
         payload["preferredSites"] = args.preferred_sites
     if args.blacklist:
@@ -95,30 +87,14 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="English text to analyse.",
     )
     parser.add_argument(
-        "--access-key",
+        "--email",
         required=True,
-        help="Access key issued from the admin portal.",
+        help="Authorized email registered in the admin portal.",
     )
     parser.add_argument(
         "--token",
         required=True,
         help="Request token to send in the x-token header.",
-    )
-    parser.add_argument(
-        "--model",
-        help="Optional model name (e.g., gpt-4o-mini).",
-    )
-    parser.add_argument(
-        "--provider",
-        help="Optional provider (e.g., openai or custom).",
-    )
-    parser.add_argument(
-        "--api-key",
-        help="Optional model API key.",
-    )
-    parser.add_argument(
-        "--base-url-param",
-        help="Optional base URL for the custom provider (maps to baseUrl in the JSON body).",
     )
     parser.add_argument(
         "--preferred-sites",
