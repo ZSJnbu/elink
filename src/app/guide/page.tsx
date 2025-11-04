@@ -76,6 +76,61 @@ const bodyFields = [
 	},
 ];
 
+const responseFields = [
+	{
+		name: "success",
+		description: "布尔值，表示请求是否成功。",
+	},
+	{
+		name: "data.keywords[].keyword",
+		description: "关键词文本。",
+	},
+	{
+		name: "data.keywords[].query",
+		description: "建议用于搜索引擎的查询语句。",
+	},
+	{
+		name: "data.keywords[].reason",
+		description: "推荐该外链的理由。",
+	},
+	{
+		name: "data.keywords[].link",
+		description: "主推荐链接，可能为空。",
+	},
+	{
+		name: "data.keywords[].title",
+		description: "主链接标题。",
+	},
+	{
+		name: "data.keywords[].alternatives.preferred",
+		description: "优先候选链接数组。",
+	},
+	{
+		name: "data.keywords[].alternatives.regular",
+		description: "常规候选链接数组。",
+	},
+	{
+		name: "data.usage.promptTokens",
+		description: "提示词 Token 数。",
+	},
+	{
+		name: "data.usage.completionTokens",
+		description: "生成 Token 数。",
+	},
+	{
+		name: "data.usage.totalTokens",
+		description: "总 Token 数。",
+	},
+	{
+		name: "data.linkFetchError",
+		description: "抓取外链时的错误信息，成功时为 `null`。",
+	},
+	{
+		name: "error",
+		description: "当 `success=false` 时出现，包含 `code`、`message` 与可选 `details`。",
+	},
+];
+
 const exampleCommand = `POST https://YOUR_DOMAIN/api/external-links
 Content-Type: application/json
 x-token: YOUR_X_TOKEN
@@ -201,6 +256,36 @@ export default function GuidePage() {
 									<pre className="overflow-x-auto rounded-xl border border-border/60 bg-background/80 p-4 text-sm text-muted-foreground">
 										<code>{exampleCommand}</code>
 									</pre>
+								</div>
+							</section>
+
+							<section className="space-y-4 rounded-2xl border border-border/70 bg-background/50 p-6 shadow-sm backdrop-blur">
+								<div>
+									<p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+										Response
+									</p>
+									<h2 className="text-2xl font-semibold text-foreground">响应字段</h2>
+									<p className="text-sm text-muted-foreground">
+										当 `success=false` 时，`error` 对象会提供具体的失败原因。
+									</p>
+								</div>
+								<div className="overflow-x-auto rounded-xl border border-border/60">
+									<table className="min-w-full text-sm">
+										<thead className="bg-muted/70 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+											<tr>
+												<th className="px-4 py-3">字段</th>
+												<th className="px-4 py-3">说明</th>
+											</tr>
+										</thead>
+										<tbody>
+											{responseFields.map((item) => (
+												<tr key={item.name} className="border-t border-border/60">
+													<td className="px-4 py-3 font-mono text-sm text-foreground">{item.name}</td>
+													<td className="px-4 py-3 text-muted-foreground">{item.description}</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
 								</div>
 							</section>
 						</div>

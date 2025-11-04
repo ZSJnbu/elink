@@ -44,4 +44,49 @@ x-token: YOUR_X_TOKEN
 }
 ```
 
-将 `YOUR_DOMAIN`、`YOUR_X_TOKEN`、`YOUR_ACCESS_KEY` 等占位符替换为实际值即可完成调用。***
+将 `YOUR_DOMAIN`、`YOUR_X_TOKEN`、`YOUR_ACCESS_KEY` 等占位符替换为实际值即可完成调用。
+
+### 响应字段说明
+
+```json
+{
+  "success": true,
+  "data": {
+    "keywords": [
+      {
+        "keyword": "Search Engine Optimization",
+        "query": "What are the best SEO strategies for 2024?",
+        "reason": "向读者解释最新 SEO 策略。",
+        "link": "https://example.com/best-seo",
+        "title": "Best SEO Strategies for 2024",
+        "alternatives": {
+          "preferred": ["https://moz.com/..."],
+          "regular": ["https://ahrefs.com/..."]
+        }
+      }
+    ],
+    "usage": {
+      "promptTokens": 123,
+      "completionTokens": 45,
+      "totalTokens": 168
+    },
+    "linkFetchError": null
+  }
+}
+```
+
+| 字段 | 说明 |
+|------|------|
+| `success` | 布尔值，表示调用是否成功。 |
+| `data.keywords[].keyword` | 关键词文本。 |
+| `data.keywords[].query` | 推荐的搜索语句。 |
+| `data.keywords[].reason` | 推荐理由。 |
+| `data.keywords[].link` | 推荐的主链接，可能为 `null`。 |
+| `data.keywords[].title` | 主链接标题。 |
+| `data.keywords[].alternatives.preferred` | 优先候选链接数组。 |
+| `data.keywords[].alternatives.regular` | 常规候选链接数组。 |
+| `data.usage.promptTokens` | 提示词 Token 数。 |
+| `data.usage.completionTokens` | 完成 Token 数。 |
+| `data.usage.totalTokens` | 总 Token 数。 |
+| `data.linkFetchError` | 抓取外链失败时的错误信息；成功时为 `null`。 |
+| `error` | 当 `success=false` 时出现，包含 `code`、`message` 与可选 `details`。 |
