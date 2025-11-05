@@ -166,52 +166,91 @@
 		"guide": "使用说明"
 	},
 	"guidePage": {
-		"title": "外链 API 调用指南",
-		"intro": "部署完成后，可通过 POST 请求 `/api/external-links` 并在 JSON 请求体中传入参数，从外部系统直接获取推荐结果。",
-		"api": {
-			"title": "调用示例",
-			"description": "下面给出标准请求与代理请求的 Curl 示例，均采用 POST + JSON 请求体，帮助你快速联通线上环境。",
-			"curlDefaultTitle": "直接访问（无需代理）",
-			"curlDefault": "curl -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"email\": \"user@example.com\",\n    \"preferredSites\": [\"moz.com\"],\n    \"blacklist\": [\"example.com\"]\n  }'",
-			"curlProxyTitle": "通过代理访问",
-			"curlProxy": "curl --proxy http://127.0.0.1:7890 -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"email\": \"user@example.com\",\n    \"preferredSites\": [\"moz.com\"],\n    \"blacklist\": [\"example.com\"]\n  }'",
-			"note": "请将 YOUR_DOMAIN 与 user@example.com 替换为实际部署域名和授权邮箱，必要时改写代理地址或补充其他 JSON 字段。记得在请求头中添加 `x-token`（可在密钥管理页面复制），模型 / API Key / Base URL 由服务器环境变量统一提供。",
-			"copyLabel": "复制命令",
-			"copiedLabel": "已复制",
-			"tableTitle": "请求体字段说明",
-			"table": {
-				"headers": {
-					"param": "参数",
-					"required": "是否必填",
-					"description": "说明"
+		"hero": {
+			"badge": "API GUIDE",
+			"title": "外链 API 参数说明",
+			"description": "所有请求均使用 POST + JSON，并需携带 `x-token` 请求头。下面的参数讲解方便你在任何环境中完成集成。"
+		},
+		"headers": {
+			"badge": "Headers",
+			"title": "请求头要求",
+			"columns": {
+				"header": "Header",
+				"type": "类型",
+				"required": "必填",
+				"description": "说明"
+			},
+			"requirements": {
+				"contentType": "固定为 `application/json`，确保请求体以 JSON 发送。",
+				"token": "请求 Token，可在密钥管理或“密钥”页面直接复制。"
+			}
+		},
+		"body": {
+			"badge": "Body",
+			"title": "JSON 请求体字段",
+			"description": "`blacklist` 与 `preferredSites` 支持数组或逗号分隔字符串，服务端会自动去重。",
+			"columns": {
+				"field": "字段",
+				"type": "类型",
+				"required": "必填",
+				"description": "说明"
+			},
+			"fields": {
+				"email": "已在后台登记的授权邮箱，服务端会基于邮箱读取调用配置。",
+				"text": "需要进行外链分析的英文文本。",
+				"fingerprint": "匿名访客可选指纹，用于限流识别。",
+				"blacklist": "需要排除的域名，支持数组或逗号分隔字符串。",
+				"preferredSites": "优先展示的域名列表，支持数组或逗号分隔字符串。"
+			}
+		},
+		"usage": {
+			"badge": "Usage",
+			"title": "调用步骤",
+			"description": "邮箱与 Token 必须一一对应，否则接口会返回 UNAUTHORIZED。",
+			"steps": {
+				"prepare": {
+					"title": "准备邮箱与 Token",
+					"description": "在后台添加授权邮箱后，点击“查看密钥”复制对应的 x-token。该 Token 与邮箱绑定，丢失需重新生成。"
 				},
-				"rows": {
-					"email": {
-						"param": "`email`",
-						"required": "必填",
-						"description": "已在后台登记的授权邮箱，服务端会基于邮箱计算访问凭证。"
-					},
-					"text": {
-						"param": "`text`",
-						"required": "必填",
-						"description": "需要进行外链分析的英文文本。"
-					},
-					"fingerprint": {
-						"param": "`fingerprint`",
-						"required": "选填",
-						"description": "匿名访客可选指纹，用于限流识别。"
-					},
-					"blacklist": {
-						"param": "`blacklist`",
-						"required": "选填",
-						"description": "需要排除的域名，支持数组或逗号分隔字符串。"
-					},
-					"preferredSites": {
-						"param": "`preferredSites`",
-						"required": "选填",
-						"description": "优先展示的域名列表，支持数组或逗号分隔字符串。"
-					}
+				"build": {
+					"title": "构造请求",
+					"description": "请求体包含 email 与 text 等字段，Header 需携带 Content-Type 和 x-token。可在 Postman、curl 或任何 HTTP 客户端中发送。"
+				},
+				"handle": {
+					"title": "处理响应",
+					"description": "成功响应会返回 keywords、usage 以及可选的 linkFetchError；失败时根据 error.code 判定是限流、鉴权还是 AI 服务异常。"
 				}
+			}
+		},
+		"example": {
+			"badge": "Example",
+			"title": "完整请求示例",
+			"description": "将 `YOUR_DOMAIN`、`YOUR_X_TOKEN` 等占位符替换为实际值即可在 Postman 或 curl 中使用。",
+			"copyLabel": "复制示例",
+			"copiedLabel": "已复制"
+		},
+		"response": {
+			"badge": "Response",
+			"title": "响应字段",
+			"description": "当 `success=false` 时，`error` 对象会提供具体的失败原因。",
+			"columns": {
+				"field": "字段",
+				"description": "说明"
+			},
+			"fields": {
+				"success": "布尔值，表示请求是否成功。",
+				"keyword": "关键词文本。",
+				"query": "建议用于搜索引擎的查询语句。",
+				"reason": "推荐该外链的理由。",
+				"link": "主推荐链接，可能为空。",
+				"title": "主链接标题。",
+				"preferred": "优先候选链接数组。",
+				"regular": "常规候选链接数组。",
+				"promptTokens": "提示词 Token 数。",
+				"completionTokens": "生成 Token 数。",
+				"totalTokens": "总 Token 数。",
+				"linkFetchError": "抓取外链时的错误信息，成功时为 `null`。",
+				"error": "当 `success=false` 时出现，包含 `code`、`message` 与可选 `details`。"
 			}
 		}
 	},

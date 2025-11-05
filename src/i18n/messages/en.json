@@ -166,52 +166,91 @@
 		"guide": "Guide"
 	},
 	"guidePage": {
-		"title": "External Links API Guide",
-		"intro": "Once your deployment is live, send POST requests to `/api/external-links` with a JSON body to retrieve link suggestions from any system.",
-		"api": {
-			"title": "Request examples",
-			"description": "Use the following Curl commands (POST + JSON body) as a template for direct calls or for environments that must route traffic through a proxy.",
-			"curlDefaultTitle": "Direct request (no proxy)",
-			"curlDefault": "curl -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"email\": \"user@example.com\",\n    \"preferredSites\": [\"moz.com\"],\n    \"blacklist\": [\"example.com\"]\n  }'",
-			"curlProxyTitle": "Request through a proxy",
-			"curlProxy": "curl --proxy http://127.0.0.1:7890 -X POST 'https://YOUR_DOMAIN/api/external-links' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"text\": \"Search engine optimization is crucial\",\n    \"email\": \"user@example.com\",\n    \"preferredSites\": [\"moz.com\"],\n    \"blacklist\": [\"example.com\"]\n  }'",
-			"note": "Replace YOUR_DOMAIN and user@example.com with your actual values. Always include the `x-token` header (copy it from the key manager modal). Model/API key/Base URL are resolved from server-side environment variables.",
-			"copyLabel": "Copy command",
-			"copiedLabel": "Copied",
-			"tableTitle": "Body fields",
-			"table": {
-				"headers": {
-					"param": "Parameter",
-					"required": "Required",
-					"description": "Description"
+		"hero": {
+			"badge": "API GUIDE",
+			"title": "External Links API Parameters",
+			"description": "All requests use POST + JSON and must include the `x-token` header. Use the following reference to integrate the API from any environment."
+		},
+		"headers": {
+			"badge": "Headers",
+			"title": "Required Request Headers",
+			"columns": {
+				"header": "Header",
+				"type": "Type",
+				"required": "Required",
+				"description": "Description"
+			},
+			"requirements": {
+				"contentType": "Always set to `application/json` to send the body as JSON.",
+				"token": "Request token copied from the Keys page."
+			}
+		},
+		"body": {
+			"badge": "Body",
+			"title": "JSON Body Fields",
+			"description": "`blacklist` and `preferredSites` accept arrays or comma-separated strings. The server deduplicates automatically.",
+			"columns": {
+				"field": "Field",
+				"type": "Type",
+				"required": "Required",
+				"description": "Description"
+			},
+			"fields": {
+				"email": "Authorized email that has already been registered in the admin portal.",
+				"text": "English text that should be analyzed for external link recommendations.",
+				"fingerprint": "Optional identifier used for anonymous visitor rate limiting.",
+				"blacklist": "Domains to exclude. Accepts an array or comma-separated string.",
+				"preferredSites": "Domains to prioritize in the final results. Accepts an array or comma-separated string."
+			}
+		},
+		"usage": {
+			"badge": "Usage",
+			"title": "How to Send Requests",
+			"description": "Make sure the email matches the token; otherwise the API responds with UNAUTHORIZED.",
+			"steps": {
+				"prepare": {
+					"title": "Prepare email & token",
+					"description": "After adding an email in the admin console, click “View key” to copy the x-token bound to that address."
 				},
-				"rows": {
-					"email": {
-						"param": "`email`",
-						"required": "Yes",
-						"description": "Authorized email that has been registered in the admin portal."
-					},
-					"text": {
-						"param": "`text`",
-						"required": "Yes",
-						"description": "English content that should be analysed for backlink suggestions."
-					},
-					"fingerprint": {
-						"param": "`fingerprint`",
-						"required": "No",
-						"description": "Optional identifier for anonymous visitors used for rate limiting."
-					},
-					"blacklist": {
-						"param": "`blacklist`",
-						"required": "No",
-						"description": "List of domains to exclude. Accepts an array or comma-separated string."
-					},
-					"preferredSites": {
-						"param": "`preferredSites`",
-						"required": "No",
-						"description": "Domains to prioritize in the final recommendations."
-					}
+				"build": {
+					"title": "Build the request",
+					"description": "Include `email` and `text` in the JSON body and send Content-Type plus x-token headers from Postman, curl, or any HTTP client."
+				},
+				"handle": {
+					"title": "Handle the response",
+					"description": "Successful responses return `keywords`, `usage`, and optional `linkFetchError`. Failures include an `error.code` describing auth, rate limits, or provider issues."
 				}
+			}
+		},
+		"example": {
+			"badge": "Example",
+			"title": "Complete Request Example",
+			"description": "Replace `YOUR_DOMAIN`, `YOUR_X_TOKEN`, and other placeholders before running in Postman or curl.",
+			"copyLabel": "Copy example",
+			"copiedLabel": "Copied"
+		},
+		"response": {
+			"badge": "Response",
+			"title": "Response Fields",
+			"description": "When `success=false`, the `error` object provides the exact failure reason.",
+			"columns": {
+				"field": "Field",
+				"description": "Description"
+			},
+			"fields": {
+				"success": "Boolean indicating whether the request succeeded.",
+				"keyword": "Keyword text.",
+				"query": "Suggested search query for engines.",
+				"reason": "Reason this external link is recommended.",
+				"link": "Primary recommended link (may be empty).",
+				"title": "Primary link title.",
+				"preferred": "Preferred alternative link array.",
+				"regular": "Regular alternative link array.",
+				"promptTokens": "Prompt token count.",
+				"completionTokens": "Completion token count.",
+				"totalTokens": "Total token count.",
+				"linkFetchError": "Error message from link fetching, or `null` on success.",
+				"error": "Present when `success=false`, containing `code`, `message`, and optional `details`."
 			}
 		}
 	},
