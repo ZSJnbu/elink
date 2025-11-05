@@ -107,9 +107,6 @@ export default async function Home() {
 									</div>
 								</div>
 
-								<div className="mt-6 rounded-xl border border-dashed border-primary/30 bg-primary/5 p-4 text-sm text-muted-foreground">
-									{messages.preview.gettingLinks}
-								</div>
 							</div>
 						</div>
 					</div>
