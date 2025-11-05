@@ -53,7 +53,7 @@ export function AdminLoginForm({ onSubmit }: AdminLoginFormProps) {
 				<Input
 					id="admin-username"
 					name="username"
-					placeholder="admin"
+					placeholder="请输入账号"
 					value={username}
 					onChange={(event) => setUsername(event.target.value)}
 					required
@@ -68,7 +68,7 @@ export function AdminLoginForm({ onSubmit }: AdminLoginFormProps) {
 					id="admin-password"
 					name="password"
 					type="password"
-					placeholder="••••••••"
+					placeholder="请输入密码"
 					value={password}
 					onChange={(event) => setPassword(event.target.value)}
 					required
